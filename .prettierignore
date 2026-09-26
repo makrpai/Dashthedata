@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+coverage
+public/duckdb
+public/samples
+playwright-report
+test-results
+package-lock.json
+*.md

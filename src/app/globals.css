@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+@import '../styles/brand.css';
+@import '../styles/tokens.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme inline {
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-slate: var(--slate);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --shadow-nm-raised: var(--nm-raised);
+  --shadow-nm-raised-sm: var(--nm-raised-sm);
+  --shadow-nm-inset: var(--nm-inset);
+  --shadow-nm-pressed: var(--nm-pressed);
+
+  --radius-card: 16px;
+  --radius-control: 12px;
+
+  --font-sans: var(--font-manrope), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-bricolage), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* Workspace type scale (ratio 1.25) */
+  --text-ws-xs: 13px;
+  --text-ws-sm: 14px;
+  --text-ws-md: 17.5px;
+  --text-ws-lg: 22px;
+  --text-ws-xl: 27px;
+}
+
+/* Neumorphic surfaces. Every interactive element also gets a hairline border (17.2). */
+@utility nm-raised {
+  background-color: var(--base);
+  box-shadow: var(--nm-raised);
+  border: var(--line-w) solid var(--line);
+}
+@utility nm-raised-sm {
+  background-color: var(--base);
+  box-shadow: var(--nm-raised-sm);
+  border: var(--line-w) solid var(--line);
+}
+@utility nm-inset {
+  background-color: var(--base);
+  box-shadow: var(--nm-inset);
+  border: var(--line-w) solid var(--line);
+}
+@utility nm-pressed {
+  background-color: var(--base);
+  box-shadow: var(--nm-pressed);
+  border: var(--line-w) solid var(--line);
+}
+@utility nm-flat {
+  background-color: var(--surface);
+  border: var(--line-w) solid var(--line);
+}
+
+@layer base {
+  html {
+    background-color: var(--base);
+    color: var(--fg);
+  }
+  body {
+    background-color: var(--base);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    line-height: 1.15;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent-fg);
+    outline-offset: 2px;
+  }
+  .tabular,
+  table,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sidebar width (17.1): expanded 16rem, collapsed 72 px; auto-collapsed under 1024 px. */
+.dtd-sidebar {
+  width: 16rem;
+  transition: width 150ms ease;
+}
+@media (max-width: 1023px) {
+  .dtd-sidebar {
+    width: 72px;
+  }
+  .dtd-sidebar .dtd-label {
+    display: none;
+  }
+  .dtd-sidebar .dtd-mark-only {
+    display: inline-flex;
+  }
+  .dtd-sidebar .dtd-sidebar-footer {
+    flex-direction: column;
+  }
+}
+html[data-sidebar='collapsed'] .dtd-sidebar {
+  width: 72px;
+}
+html[data-sidebar='collapsed'] .dtd-sidebar .dtd-label {
+  display: none;
+}
+html[data-sidebar='collapsed'] .dtd-sidebar .dtd-mark-only {
+  display: inline-flex;
+}
+html[data-sidebar='collapsed'] .dtd-sidebar .dtd-sidebar-footer {
+  flex-direction: column;
+}
+@media (max-width: 1023px) {
+  html[data-sidebar='expanded'] .dtd-sidebar {
+    width: 16rem;
+  }
+  html[data-sidebar='expanded'] .dtd-sidebar .dtd-label {
+    display: revert;
+  }
+  html[data-sidebar='expanded'] .dtd-sidebar .dtd-mark-only {
+    display: none;
+  }
+  html[data-sidebar='expanded'] .dtd-sidebar .dtd-sidebar-footer {
+    flex-direction: row;
+  }
+}
+html[data-sidebar='collapsed'] .dtd-sidebar [data-nav-item] .dtd-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}

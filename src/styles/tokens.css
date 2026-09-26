@@ -1,0 +1,128 @@
+/*
+ * Design tokens (plan section 17.4). Token names are English; the plan's Finnish names map as:
+ * --pohja → --base, --pinta-litea → --surface, --varjo-vaalea → --shadow-light,
+ * --varjo-tumma → --shadow-dark, --teksti → --fg, --teksti-2 → --fg-2, --slate → --slate,
+ * --navy → --primary, --koralli → --accent, --koralli-teksti → --accent-fg,
+ * --onnistui → --success, --virhe → --danger, --reuna → --line.
+ * Brand colours come from brand.css, generated from brand.json (npm run brand).
+ */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+  --base: var(--brand-mist);
+  --surface: var(--brand-paper);
+  --shadow-light: rgba(255, 255, 255, 0.9);
+  --shadow-dark: #c5cedc;
+  --fg: var(--brand-ink);
+  --fg-2: #4a5878;
+  --slate: var(--brand-slate);
+  --primary: var(--brand-ink);
+  --primary-fg: #ffffff;
+  --accent: var(--brand-accent);
+  --accent-fg: #b8403a;
+  --success: #1b7f5b;
+  --danger: #9f1d16;
+  --line: rgba(15, 39, 71, 0.08);
+  --line-strong: rgba(15, 39, 71, 0.16);
+  --line-w: 1px;
+  --dtd-ink: var(--brand-ink);
+  --dtd-accent: var(--brand-accent);
+  --chart-1: #1f4e8c;
+  --chart-2: #e85d56;
+  --chart-3: #1b998b;
+  --chart-4: #e0a526;
+  --chart-5: #7d8aa6;
+  --chart-6: #56a3d9;
+  --chart-7: #8e5ba8;
+  --chart-8: #6b7280;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --base: #16233b;
+  --surface: #1c2b45;
+  --shadow-light: #22324f;
+  --shadow-dark: #0b1526;
+  --fg: var(--brand-mist);
+  --fg-2: #a9b6cc;
+  --slate: var(--brand-slate);
+  --primary: var(--brand-mist);
+  --primary-fg: var(--brand-ink);
+  --accent: var(--brand-accent-on-dark);
+  --accent-fg: #f59a93;
+  --success: #6fd3a8;
+  --danger: #ffb4ab;
+  --line: rgba(233, 237, 244, 0.08);
+  --line-strong: rgba(233, 237, 244, 0.18);
+  --dtd-ink: var(--brand-paper);
+  --dtd-accent: var(--brand-accent-on-dark);
+  --chart-1: #5b85c4;
+  --chart-2: #f08a84;
+  --chart-3: #3fc2b3;
+  --chart-4: #efbe52;
+  --chart-5: #a3aec4;
+  --chart-6: #82bfe6;
+  --chart-7: #b186c8;
+  --chart-8: #9aa1ad;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme='system'] {
+    color-scheme: dark;
+    --base: #16233b;
+    --surface: #1c2b45;
+    --shadow-light: #22324f;
+    --shadow-dark: #0b1526;
+    --fg: var(--brand-mist);
+    --fg-2: #a9b6cc;
+    --primary: var(--brand-mist);
+    --primary-fg: var(--brand-ink);
+    --accent: var(--brand-accent-on-dark);
+    --accent-fg: #f59a93;
+    --success: #6fd3a8;
+    --danger: #ffb4ab;
+    --line: rgba(233, 237, 244, 0.08);
+    --line-strong: rgba(233, 237, 244, 0.18);
+    --dtd-ink: var(--brand-paper);
+    --dtd-accent: var(--brand-accent-on-dark);
+    --chart-1: #5b85c4;
+    --chart-2: #f08a84;
+    --chart-3: #3fc2b3;
+    --chart-4: #efbe52;
+    --chart-5: #a3aec4;
+    --chart-6: #82bfe6;
+    --chart-7: #b186c8;
+    --chart-8: #9aa1ad;
+  }
+}
+
+:root {
+  --nm-raised: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+  --nm-raised-sm: 3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light);
+  --nm-inset: inset 3px 3px 7px var(--shadow-dark), inset -3px -3px 7px var(--shadow-light);
+  --nm-pressed: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
+}
+
+/* High contrast: no shadows, solid 2 px borders in the text colour. */
+:root[data-contrast='high'] {
+  --nm-raised: none;
+  --nm-raised-sm: none;
+  --nm-inset: none;
+  --nm-pressed: none;
+  --line: var(--fg);
+  --line-strong: var(--fg);
+  --line-w: 2px;
+  --fg-2: var(--fg);
+}
+
+@media (prefers-contrast: more), (forced-colors: active) {
+  :root {
+    --nm-raised: none;
+    --nm-raised-sm: none;
+    --nm-inset: none;
+    --nm-pressed: none;
+    --line: var(--fg);
+    --line-strong: var(--fg);
+    --line-w: 2px;
+  }
+}

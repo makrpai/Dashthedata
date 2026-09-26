@@ -29,6 +29,7 @@ const ROW_HEIGHT = 32;
  */
 export function DataPreview({
   table,
+  fromSql,
   columns,
   rowCount,
   version,
@@ -38,6 +39,8 @@ export function DataPreview({
   label,
 }: {
   table: string;
+  /** Optional SQL used instead of the table (e.g. a before/after diff). */
+  fromSql?: string;
   columns: PreviewColumn[];
   rowCount: number;
   version: number | string;
@@ -52,7 +55,7 @@ export function DataPreview({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<Map<number, Row[]>>(() => new Map());
   const loading = useRef(new Set<number>());
-  const cacheKey = `${table}|${version}|${orderBy}|${columns.map((c) => c.name).join(',')}`;
+  const cacheKey = `${table}|${fromSql ?? ''}|${version}|${orderBy}|${columns.map((c) => c.name).join(',')}`;
   const [key, setKey] = useState(cacheKey);
   if (key !== cacheKey) {
     setKey(cacheKey);
@@ -77,14 +80,15 @@ export function DataPreview({
 
   useEffect(() => {
     if (!runner || rowCount === 0) return;
-    const select = columns.map((c) => quoteIdent(c.name)).join(', ') || '*';
+    const source = fromSql ? `(${fromSql}) AS "__p"` : quoteIdent(table);
+    const select = fromSql ? '*' : columns.map((c) => quoteIdent(c.name)).join(', ') || '*';
     for (let p = firstPage; p <= lastPage; p++) {
       if (pages.has(p) || loading.current.has(p)) continue;
       loading.current.add(p);
       const requestKey = cacheKey;
       runner
         .query(
-          `SELECT ${select} FROM ${quoteIdent(table)}${orderBy ? ` ORDER BY ${orderBy}` : ''} LIMIT ${PAGE} OFFSET ${p * PAGE}`,
+          `SELECT ${select} FROM ${source}${orderBy ? ` ORDER BY ${orderBy}` : ''} LIMIT ${PAGE} OFFSET ${p * PAGE}`,
         )
         .then((rows) => {
           setPages((prev) => {
@@ -97,7 +101,7 @@ export function DataPreview({
         .catch(() => undefined)
         .finally(() => loading.current.delete(p));
     }
-  }, [runner, firstPage, lastPage, pages, cacheKey, table, columns, orderBy, rowCount]);
+  }, [runner, firstPage, lastPage, pages, cacheKey, table, fromSql, columns, orderBy, rowCount]);
 
   const template = useMemo(
     () => `56px ${columns.map((c) => `${c.width ?? 168}px`).join(' ')}`,

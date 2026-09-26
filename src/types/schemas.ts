@@ -75,6 +75,7 @@ export const sourceSchema: z.ZodType<Source> = z.object({
   lastLoadedAt: z.string().optional(),
   rawTable: z.string(),
   rowCount: z.number(),
+  columnCount: z.number().optional(),
   typedAtSource: z.boolean(),
   file: z
     .object({

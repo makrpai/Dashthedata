@@ -40,7 +40,7 @@ test.describe('file import (phase 1)', () => {
   test('English sample and relation CSVs', async ({ page }) => {
     await upload(page, ['sales-orders.csv', 'asiakkaat.csv', 'tilaukset.csv']);
     await expect(page.getByText('Lisättiin 3 datasettiä')).toBeVisible({ timeout: 60_000 });
-    await expect(page.getByText('5 001', { exact: true })).toBeVisible();
+    await expect(page.getByText('5 000', { exact: true })).toBeVisible();
   });
 
   test('removing a source', async ({ page }) => {

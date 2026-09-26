@@ -158,3 +158,19 @@ html[data-sidebar='collapsed'] .dtd-sidebar [data-nav-item] .dtd-dot {
   top: 6px;
   right: 6px;
 }
+
+/* Clean-up log: dots settle from scattered places into the groove (17.5). */
+@keyframes dtd-settle {
+  from {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1.3);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.dtd-settle {
+  animation: dtd-settle 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--delay, 0ms);
+}

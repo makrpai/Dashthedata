@@ -27,6 +27,8 @@ export interface Source {
   /** DuckDB table, e.g. "raw_k3j9x". */
   rawTable: string;
   rowCount: number;
+  /** Columns in the raw table (c0…cN). */
+  columnCount?: number;
   /** True for databases and Parquet (types are known). */
   typedAtSource: boolean;
   file?: {

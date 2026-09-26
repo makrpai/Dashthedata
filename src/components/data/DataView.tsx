@@ -28,10 +28,9 @@ export function DataView() {
   const setSelected = (id: string) => setPick({ id, forImport: lastImported });
 
   const source = sources.find((s) => s.id === selected) ?? null;
-  const dataset = source ? datasets.find((d) => d.kind === 'source' && d.sourceIds.includes(source.id)) : undefined;
   const columns: PreviewColumn[] = [];
   if (source) {
-    const width = source.columnNames?.length ?? dataset?.columns.length ?? 0;
+    const width = source.columnNames?.length ?? source.columnCount ?? 0;
     for (let i = 0; i < width; i++) {
       columns.push({ name: `c${i}`, label: source.columnNames?.[i] ?? t('preview.column', { n: i + 1 }) });
     }

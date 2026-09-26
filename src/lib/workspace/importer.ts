@@ -100,11 +100,12 @@ export async function importPrepared(
   prepared: PreparedFile[],
   sheetChoice: Record<string, string[]>,
   projectName: string,
-): Promise<{ datasetIds: string[]; issues: ImportIssue[] }> {
+): Promise<{ datasetIds: string[]; issues: ImportIssue[]; cleaned: number }> {
   const runner = await ensureEngine();
   ensureProject(projectName);
   const datasetIds: string[] = [];
   const issues: ImportIssue[] = [];
+  let cleaned = 0;
   for (const item of prepared) {
     const units: Array<{ sheet?: string }> =
       item.sheets !== undefined ? (sheetChoice[item.key] ?? defaultSheets(item.sheets)).map((sheet) => ({ sheet })) : [{}];
@@ -132,6 +133,7 @@ export async function importPrepared(
           lastLoadedAt: new Date().toISOString(),
           rawTable,
           rowCount: result.rowCount,
+          columnCount: result.columnCount,
           typedAtSource: Boolean(result.typed),
           file: {
             name: item.file.name,
@@ -164,7 +166,7 @@ export async function importPrepared(
         const store = useProjectStore.getState();
         store.addSource(source);
         store.addDataset(dataset);
-        await runDataset(datasetId, { autoDetect: true });
+        cleaned += await runDataset(datasetId, { autoDetect: true });
         datasetIds.push(datasetId);
       } catch (err) {
         console.warn('[import] failed', err instanceof Error ? err.message : err);
@@ -177,7 +179,7 @@ export async function importPrepared(
     }
     if (item.workbookId !== undefined) await closeWorkbook(item.workbookId).catch(() => undefined);
   }
-  return { datasetIds, issues };
+  return { datasetIds, issues, cleaned };
 }
 
 type LoadResult = RawIngestResult & { mergedColumns?: number[] };

@@ -33,9 +33,13 @@ export function useImport() {
       try {
         const projectName = prepared[0]?.file.name.replace(/\.[^.]+$/, '') ?? t('project.untitled');
         store.set({ progress: t('sources.importing', { name: prepared.map((p) => p.file.name).join(', ') }) });
-        const { datasetIds, issues } = await importPrepared(prepared, sheetChoice, projectName);
+        const { datasetIds, issues, cleaned } = await importPrepared(prepared, sheetChoice, projectName);
         report(issues);
-        if (datasetIds.length) toast.success(t('sources.imported', { count: datasetIds.length }));
+        if (datasetIds.length) {
+          toast.success(t('sources.imported', { count: datasetIds.length }), {
+            description: cleaned > 0 ? t('etl.summaryToast', { count: cleaned }) : undefined,
+          });
+        }
         store.set({ lastImported: datasetIds });
         return datasetIds;
       } catch (err) {

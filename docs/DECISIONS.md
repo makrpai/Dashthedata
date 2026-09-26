@@ -115,3 +115,23 @@ case through both paths against a real DuckDB.
 **Decision:** A column's month vocabulary is guessed from Finnish-only / English-only tokens; ties use
 the data locale. The format id records the choice (`monthName:fi` / `monthName:en`).
 Time zone offsets in ISO timestamps are dropped (wall-clock time is kept).
+
+## 2026-09-26 – Pipeline details
+- **promoteHeader** stores the header names in its params (`{ row, names }`) because `toSql` is pure;
+  the runner re-reads the header row on every run, so refreshed data picks up new names.
+  `row: null` means "no header" and generates Sarake/Column 1…N.
+- **unpivot** uses parallel `unnest([...])` lists instead of `UNPIVOT`, which keeps NULL cells
+  (the sample report's two empty cells stay as rows) and the original row order. Period values are
+  computed at detection time and stored in the params; the value column is named from the sheet name
+  without the year ("Myynti 2025" → "Myynti"), otherwise Arvo/Value.
+- **clean_<id> keeps `__row`**: previews page with `ORDER BY __row` and before/after diffs join on it.
+  Charts and exports select explicit columns, so the helper column never shows.
+- **Large inputs** (> 200 000 rows) materialise every stage as a table instead of a view, so
+  measuring effects does not re-evaluate the whole chain for each step.
+- **Parse failures** are measured in SQL on the full data (value present before castTypes, NULL
+  after), not only on the inference sample.
+- **Foreign keys**: integer/text columns named like `asiakas_id`, `…tunnus`, `…nro`, `…koodi` get the
+  role `id` even when values repeat. The plan's rule would make `asiakas_id` a measure, which would
+  hide it from relationship detection (10.2 only considers id/dimension columns).
+- **Suggestions** are stored as steps with `suggested: true` and `enabled: false`; "Apply" turns them
+  on, "Dismiss" removes them.

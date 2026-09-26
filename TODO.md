@@ -29,10 +29,10 @@ Checklist of the phases in the implementation plan (section 23). Tick items as t
 - [x] Column headers: type icon, mini distribution, null share, warnings
 
 ## Phase 3 – ETL pipeline and automatic clean-up
-- [ ] `StepDefinition`, all step types, `pipeline.ts`
-- [ ] Auto-detections (9.4) in the order of 9.2
-- [ ] Clean-up view: log (animation), step cards, before/after, column menu, add step, formula editor, undo/redo
-- [ ] Fixtures match expectations
+- [x] `StepDefinition`, all step types, `pipeline.ts`
+- [x] Auto-detections (9.4) in the order of 9.2
+- [x] Clean-up view: log (animation), step cards, before/after, column menu, add step, formula editor, undo/redo
+- [x] Fixtures match expectations
 
 ## Phase 4 – Charts
 - [ ] `spec.ts`, `queryBuilder.ts`, `echartsOption.ts`, `format.ts` + tests

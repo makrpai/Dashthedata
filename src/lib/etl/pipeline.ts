@@ -28,7 +28,10 @@ export interface PipelineRunResult {
   /** View (unquoted) holding the result after step i; for disabled steps the previous view. */
   viewByStep: string[];
   columnsByStep: ColumnRef[][];
+  /** Generated SQL per step (null when skipped). */
+  sqlByStep: Array<string | null>;
   baseView: string;
+  baseColumns: ColumnRef[];
   rowCount: number;
   castFailures: CastFailure[];
 }
@@ -110,6 +113,7 @@ export async function runPipeline(runner: QueryRunner, opts: RunOptions): Promis
   let rows = opts.measure ? await countRows(runner, quoteIdent(baseView)) : 0;
   const viewByStep: string[] = [];
   const columnsByStep: ColumnRef[][] = [];
+  const sqlByStep: Array<string | null> = [];
   const steps: PipelineStep[] = [];
   const castFailures: CastFailure[] = [];
 
@@ -121,8 +125,10 @@ export async function runPipeline(runner: QueryRunner, opts: RunOptions): Promis
       steps.push(step);
       viewByStep.push(current);
       columnsByStep.push(columns);
+      sqlByStep.push(null);
       continue;
     }
+    let generated: string | null = null;
     const def = stepDefinition(step.kind);
     try {
       const parsed = def.paramsSchema.safeParse(step.params);
@@ -137,6 +143,7 @@ export async function runPipeline(runner: QueryRunner, opts: RunOptions): Promis
         step.params = params;
       }
       const out = def.toSql({ from: quoteIdent(current), columns, locale: opts.locale }, params as never);
+      generated = out.sql;
       await createStage(runner, name, out.sql, materialize);
       let nextColumns = out.columns;
       if (step.kind === 'customSql') {
@@ -172,6 +179,7 @@ export async function runPipeline(runner: QueryRunner, opts: RunOptions): Promis
     steps.push(step);
     viewByStep.push(current);
     columnsByStep.push(columns);
+    sqlByStep.push(generated);
   }
 
   // Remove stages left over from a longer pipeline.
@@ -191,7 +199,18 @@ export async function runPipeline(runner: QueryRunner, opts: RunOptions): Promis
   } else if (!opts.measure) {
     rows = await countRows(runner, quoteIdent(current));
   }
-  return { steps, columns, lastView: quoteIdent(current), viewByStep, columnsByStep, baseView, rowCount: rows, castFailures };
+  return {
+    steps,
+    columns,
+    lastView: quoteIdent(current),
+    viewByStep,
+    columnsByStep,
+    sqlByStep,
+    baseView,
+    baseColumns: opts.base.columns,
+    rowCount: rows,
+    castFailures,
+  };
 }
 
 /** Cells whose text value changed between two stages (joined on __row). */

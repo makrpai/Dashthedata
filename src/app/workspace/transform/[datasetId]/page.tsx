@@ -1,5 +1,6 @@
-import { PlaceholderView } from '@/components/views/PlaceholderView';
+import { TransformView } from '@/components/transform/TransformView';
 
-export default function Page() {
-  return <PlaceholderView title="views.transform.title" text="views.transform.empty" withDataLink />;
+export default async function Page({ params }: { params: Promise<{ datasetId: string }> }) {
+  const { datasetId } = await params;
+  return <TransformView datasetId={datasetId} />;
 }

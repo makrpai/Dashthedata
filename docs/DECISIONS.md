@@ -99,3 +99,19 @@ again. Measured: a 1 million row, 37 MB CSV imports in ≈4.5 s with the longest
 **Decision:** The preview grid is a small ARIA grid on top of `@tanstack/react-virtual`; a headless
 table model added nothing for a read-only, windowed grid. `@tanstack/react-table` stays available
 for sortable top-N tables in phase 4.
+
+## 2026-09-26 – One definition for parsing in JS and SQL
+**Context:** Type inference runs in JS on a sample, but conversion must be SQL (castTypes).
+**Decision:** Number and date formats are defined once as RE2/JS-compatible regular expressions.
+JS uses them to decide the type; SQL reuses them: numbers are cleaned and `TRY_CAST … AS DOUBLE`,
+dates are rebuilt as `Y-M-D H:M:S` with `regexp_extract` and `TRY_CAST … AS TIMESTAMP` (instead of
+`strptime`, which cannot express month names, quarters or two-digit year pivots). Tests run every
+case through both paths against a real DuckDB.
+`castTypes` stores `dateFormats: string[]` (several formats are coalesced) instead of a single
+`dateFormat` string.
+
+## 2026-09-26 – Ambiguous month abbreviations
+**Context:** "mar" is November in Finnish (marraskuu) and March in English.
+**Decision:** A column's month vocabulary is guessed from Finnish-only / English-only tokens; ties use
+the data locale. The format id records the choice (`monthName:fi` / `monthName:en`).
+Time zone offsets in ISO timestamps are dropped (wall-clock time is kept).

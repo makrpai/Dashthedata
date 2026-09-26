@@ -25,8 +25,8 @@ Checklist of the phases in the implementation plan (section 23). Tick items as t
 - [x] Integration tests for ingest
 
 ## Phase 2 – Profiling and type inference
-- [ ] `numberFormat`, `dateFormat`, `inferType`, `roles`, `stats` + test tables
-- [ ] Column headers: type icon, mini distribution, null share, warnings
+- [x] `numberFormat`, `dateFormat`, `inferType`, `roles`, `stats` + test tables
+- [x] Column headers: type icon, mini distribution, null share, warnings
 
 ## Phase 3 – ETL pipeline and automatic clean-up
 - [ ] `StepDefinition`, all step types, `pipeline.ts`

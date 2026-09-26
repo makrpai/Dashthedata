@@ -115,6 +115,9 @@ export const sourceSchema: z.ZodType<Source> = z.object({
       rowLimit: z.number(),
     })
     .optional(),
+  columnNames: z.array(z.string()).optional(),
+  columnTypes: z.array(columnTypeSchema).optional(),
+  blobKey: z.string().optional(),
   mergedColumns: z.array(z.number()).optional(),
   warnings: z.array(z.object({ key: z.string(), params: paramsRecord.optional() })).optional(),
 });

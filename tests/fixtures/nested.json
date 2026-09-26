@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "nimi": "Tunturivyö",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 147.27,
+    "varastossa": 227,
+    "tagit": [
+      "ale",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 2,
+    "nimi": "Sadekenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 270.04,
+    "varastossa": 72,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 3,
+    "nimi": "Kaupunkipaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 53.51,
+    "varastossa": 117,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 4,
+    "nimi": "Sadematto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 95.15,
+    "varastossa": 96,
+    "tagit": [
+      "uutuus",
+      "ale"
+    ]
+  },
+  {
+    "id": 5,
+    "nimi": "Metsäsaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 58.09,
+    "varastossa": 159,
+    "tagit": []
+  },
+  {
+    "id": 6,
+    "nimi": "Rantareppu",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 117.03,
+    "varastossa": 219,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 7,
+    "nimi": "Polkukenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 231.38,
+    "varastossa": 78,
+    "tagit": [
+      "uutuus",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 8,
+    "nimi": "Talvivyö",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 32.86,
+    "varastossa": 184,
+    "tagit": [
+      "uutuus",
+      "ale"
+    ]
+  },
+  {
+    "id": 9,
+    "nimi": "Tunturimatto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 215.7,
+    "varastossa": 135,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 10,
+    "nimi": "Metsäkenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 41.41,
+    "varastossa": 82,
+    "tagit": [
+      "uutuus",
+      "suosikki",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 11,
+    "nimi": "Rantapaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 215.78,
+    "varastossa": 186,
+    "tagit": [
+      "suosikki",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 12,
+    "nimi": "Talvikenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 33.52,
+    "varastossa": 105,
+    "tagit": [
+      "kotimainen"
+    ]
+  }
+]

@@ -55,6 +55,11 @@ export interface Source {
     query: DbQuery | DbSqlQuery;
     rowLimit: number;
   };
+  /** Typed sources (Parquet, databases): original column names and types of c0…cN. */
+  columnNames?: string[];
+  columnTypes?: ColumnType[];
+  /** IndexedDB key of the stored file bytes (rememberData). */
+  blobKey?: string;
   /** Excel merged-cell hints for fill-down detection: column indexes (c0 = 0) with merges. */
   mergedColumns?: number[];
   /** Import warnings, e.g. error cells converted to NULL. */

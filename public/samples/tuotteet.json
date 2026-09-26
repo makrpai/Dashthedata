@@ -1,0 +1,782 @@
+[
+  {
+    "id": 1,
+    "nimi": "Metsäkenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 67.34,
+    "varastossa": 178,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 2,
+    "nimi": "Polkusaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 174.42,
+    "varastossa": 212,
+    "tagit": [
+      "suosikki"
+    ]
+  },
+  {
+    "id": 3,
+    "nimi": "Metsämatto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 43.92,
+    "varastossa": 49,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 4,
+    "nimi": "Metsämatto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 85.64,
+    "varastossa": 70,
+    "tagit": [
+      "uutuus",
+      "ale",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 5,
+    "nimi": "Sadevyö",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 160.61,
+    "varastossa": 54,
+    "tagit": []
+  },
+  {
+    "id": 6,
+    "nimi": "Rantashortsit",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 218.83,
+    "varastossa": 170,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 7,
+    "nimi": "Metsäsaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 227.2,
+    "varastossa": 78,
+    "tagit": []
+  },
+  {
+    "id": 8,
+    "nimi": "Talviparka",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 148.87,
+    "varastossa": 199,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 9,
+    "nimi": "Tunturipipo",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 164.11,
+    "varastossa": 148,
+    "tagit": []
+  },
+  {
+    "id": 10,
+    "nimi": "Ratareppu",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 114.72,
+    "varastossa": 164,
+    "tagit": []
+  },
+  {
+    "id": 11,
+    "nimi": "Tunturiparka",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 276.17,
+    "varastossa": 141,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 12,
+    "nimi": "Rantakenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 142.16,
+    "varastossa": 212,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 13,
+    "nimi": "Kaupunkitakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 185.03,
+    "varastossa": 119,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 14,
+    "nimi": "Ratakenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 76.96,
+    "varastossa": 140,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 15,
+    "nimi": "Sadekenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 155.66,
+    "varastossa": 101,
+    "tagit": [
+      "uutuus",
+      "suosikki",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 16,
+    "nimi": "Polkupipo",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 136.56,
+    "varastossa": 31,
+    "tagit": [
+      "suosikki"
+    ]
+  },
+  {
+    "id": 17,
+    "nimi": "Rantasaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 190.51,
+    "varastossa": 66,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 18,
+    "nimi": "Ratashortsit",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 107.75,
+    "varastossa": 185,
+    "tagit": [
+      "ale",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 19,
+    "nimi": "Rantapipo",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 250.76,
+    "varastossa": 114,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 20,
+    "nimi": "Metsäreppu",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 130.94,
+    "varastossa": 106,
+    "tagit": [
+      "uutuus",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 21,
+    "nimi": "Sadekenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 161.61,
+    "varastossa": 216,
+    "tagit": [
+      "ale",
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 22,
+    "nimi": "Rantakenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 58.21,
+    "varastossa": 80,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 23,
+    "nimi": "Polkumatto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 142.86,
+    "varastossa": 24,
+    "tagit": [
+      "uutuus",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 24,
+    "nimi": "Polkureppu",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 190.63,
+    "varastossa": 109,
+    "tagit": [
+      "uutuus",
+      "ale"
+    ]
+  },
+  {
+    "id": 25,
+    "nimi": "Kaupunkipipo",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 226.22,
+    "varastossa": 146,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 26,
+    "nimi": "Tunturipaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 287.52,
+    "varastossa": 166,
+    "tagit": [
+      "uutuus",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 27,
+    "nimi": "Polkutakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 162.25,
+    "varastossa": 48,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 28,
+    "nimi": "Sadepipo",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 140.74,
+    "varastossa": 215,
+    "tagit": []
+  },
+  {
+    "id": 29,
+    "nimi": "Ratatakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 46.65,
+    "varastossa": 215,
+    "tagit": [
+      "uutuus",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 30,
+    "nimi": "Rantapaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 256.23,
+    "varastossa": 70,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 31,
+    "nimi": "Metsäpaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 107.66,
+    "varastossa": 56,
+    "tagit": [
+      "suosikki"
+    ]
+  },
+  {
+    "id": 32,
+    "nimi": "Metsätakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 93.42,
+    "varastossa": 171,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 33,
+    "nimi": "Metsäshortsit",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 261.8,
+    "varastossa": 239,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 34,
+    "nimi": "Talvikenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 137.86,
+    "varastossa": 45,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 35,
+    "nimi": "Kaupunkishortsit",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 50.16,
+    "varastossa": 197,
+    "tagit": []
+  },
+  {
+    "id": 36,
+    "nimi": "Kaupunkireppu",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 289.08,
+    "varastossa": 247,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 37,
+    "nimi": "Metsäsaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 76.23,
+    "varastossa": 152,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 38,
+    "nimi": "Tunturivyö",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 134.97,
+    "varastossa": 231,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 39,
+    "nimi": "Rantakenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 246.34,
+    "varastossa": 115,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 40,
+    "nimi": "Metsäsaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 251.94,
+    "varastossa": 91,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 41,
+    "nimi": "Tunturimatto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 265.48,
+    "varastossa": 57,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 42,
+    "nimi": "Metsäpaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 222.35,
+    "varastossa": 116,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 43,
+    "nimi": "Kaupunkisaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 31.05,
+    "varastossa": 233,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 44,
+    "nimi": "Ratatakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 280.42,
+    "varastossa": 205,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 45,
+    "nimi": "Rantasaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 180.96,
+    "varastossa": 211,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 46,
+    "nimi": "Tunturishortsit",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 202.05,
+    "varastossa": 22,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 47,
+    "nimi": "Polkuparka",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 80.37,
+    "varastossa": 35,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 48,
+    "nimi": "Talvisaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 284.22,
+    "varastossa": 228,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 49,
+    "nimi": "Sadekenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 191.55,
+    "varastossa": 101,
+    "tagit": []
+  },
+  {
+    "id": 50,
+    "nimi": "Sadetakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 182.29,
+    "varastossa": 60,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 51,
+    "nimi": "Polkusaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 27.85,
+    "varastossa": 14,
+    "tagit": [
+      "suosikki"
+    ]
+  },
+  {
+    "id": 52,
+    "nimi": "Talvisaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 102.79,
+    "varastossa": 120,
+    "tagit": []
+  },
+  {
+    "id": 53,
+    "nimi": "Tunturipaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 237.31,
+    "varastossa": 247,
+    "tagit": [
+      "uutuus"
+    ]
+  },
+  {
+    "id": 54,
+    "nimi": "Ratasaapas",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 259.25,
+    "varastossa": 111,
+    "tagit": []
+  },
+  {
+    "id": 55,
+    "nimi": "Rantamatto",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 155.01,
+    "varastossa": 108,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 56,
+    "nimi": "Rantatakki",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 211.18,
+    "varastossa": 79,
+    "tagit": [
+      "kotimainen"
+    ]
+  },
+  {
+    "id": 57,
+    "nimi": "Polkuvyö",
+    "kategoria": {
+      "id": 3,
+      "nimi": "Asusteet"
+    },
+    "hinta": 143.88,
+    "varastossa": 129,
+    "tagit": [
+      "ale"
+    ]
+  },
+  {
+    "id": 58,
+    "nimi": "Tunturipaita",
+    "kategoria": {
+      "id": 4,
+      "nimi": "Urheilu"
+    },
+    "hinta": 201.46,
+    "varastossa": 220,
+    "tagit": [
+      "suosikki"
+    ]
+  },
+  {
+    "id": 59,
+    "nimi": "Tunturikenkä",
+    "kategoria": {
+      "id": 1,
+      "nimi": "Kengät"
+    },
+    "hinta": 24.72,
+    "varastossa": 109,
+    "tagit": [
+      "ale",
+      "suosikki"
+    ]
+  },
+  {
+    "id": 60,
+    "nimi": "Polkuparka",
+    "kategoria": {
+      "id": 2,
+      "nimi": "Takit"
+    },
+    "hinta": 214.43,
+    "varastossa": 55,
+    "tagit": [
+      "ale",
+      "kotimainen"
+    ]
+  }
+]

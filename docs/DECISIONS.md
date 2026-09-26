@@ -68,3 +68,34 @@ read by `src/app/opengraph-image.tsx`. The image text is English, as the plan al
 **Decision:** `'unsafe-eval'` and `ws:` are added to the CSP only when `NODE_ENV !== 'production'`.
 The production policy is exactly the one in section 18, with the local-model hosts from 15.6 added to
 `connect-src` from the start (Ollama/LM Studio on localhost and the WebLLM model hosts).
+
+## 2026-09-26 – String matrices are loaded as CSV, not Arrow
+**Context:** The plan loads Excel/JSON matrices with `tableFromArrays` + `insertArrowTable`.
+apache-arrow's vector builders compile code with `new Function`, which the production CSP
+(`script-src` without `'unsafe-eval'`) blocks.
+**Decision:** `createStringTable` serialises the matrix as CSV (every non-null value quoted, NULL as an
+empty unquoted field), registers it as a virtual file and reads it with `read_csv` using explicit
+VARCHAR columns and `allow_quoted_nulls = false`. The Node test runner uses the same SQL.
+**Consequences:** The CSP stays strict. The top-level `apache-arrow` is pinned to 17 to match
+duckdb-wasm, and is only used to read query results.
+
+## 2026-09-26 – Excel dates from number formats, not `cellDates`
+**Context:** SheetJS `cellDates: true` builds JS Dates in the local time zone, which can shift dates.
+**Decision:** Cells are read with `cellNF: true`; numeric cells whose format is a date format
+(`SSF.is_date`) are converted from the serial number with UTC arithmetic (1900 and 1904 systems).
+
+## 2026-09-26 – Row order and blank lines in CSV
+**Decision:** `__row` comes from DuckDB's `rowid` of the staging table (insertion order is preserved),
+not from `row_number() OVER ()`. DuckDB skips completely blank lines while reading; they would be
+removed by `dropEmptyRows` anyway.
+
+## 2026-09-26 – Large CSV files
+**Decision:** UTF-8 CSV/TSV files above 100 MB are registered with `registerFileHandle` (7.3) and are
+not copied into IndexedDB (they would double the memory use); after a reload the user drops them
+again. Measured: a 1 million row, 37 MB CSV imports in ≈4.5 s with the longest main-thread task
+≈140 ms.
+
+## 2026-09-26 – Preview without @tanstack/react-table
+**Decision:** The preview grid is a small ARIA grid on top of `@tanstack/react-virtual`; a headless
+table model added nothing for a read-only, windowed grid. `@tanstack/react-table` stays available
+for sortable top-N tables in phase 4.

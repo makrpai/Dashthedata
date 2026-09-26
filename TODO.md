@@ -16,13 +16,13 @@ Checklist of the phases in the implementation plan (section 23). Tick items as t
 - [x] Domain types and Zod schemas
 
 ## Phase 1 – DuckDB and file import
-- [ ] `copy-duckdb-assets.mjs`, DuckDB client, query queue, `quoteIdent`/`sqlLiteral` + tests
-- [ ] Ingest: Excel worker + SheetPicker, CSV (encoding + delimiter), JSON (flattening, columnar), Parquet
-- [ ] Zustand store (project, sources, datasets), DropZone (many files, whole-window drag)
-- [ ] Data view: source cards
-- [ ] DataPreview (virtualised)
-- [ ] `generate-samples.ts` and sample files
-- [ ] Integration tests for ingest
+- [x] `copy-duckdb-assets.mjs`, DuckDB client, query queue, `quoteIdent`/`sqlLiteral` + tests
+- [x] Ingest: Excel worker + SheetPicker, CSV (encoding + delimiter), JSON (flattening, columnar), Parquet
+- [x] Zustand store (project, sources, datasets), DropZone (many files, whole-window drag)
+- [x] Data view: source cards
+- [x] DataPreview (virtualised)
+- [x] `generate-samples.ts` and sample files
+- [x] Integration tests for ingest
 
 ## Phase 2 – Profiling and type inference
 - [ ] `numberFormat`, `dateFormat`, `inferType`, `roles`, `stats` + test tables

@@ -2,6 +2,7 @@ import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { createFromMatrixSql, matrixToCsv } from '@/lib/duckdb/matrixCsv';
 import { normalizeValue, type LogicalKind } from '@/lib/duckdb/normalize';
 import { quoteIdent, sqlLiteral } from '@/lib/duckdb/sql';
 import type { QueryRunner, Row } from '@/lib/duckdb/types';
@@ -68,17 +69,11 @@ export class NodeRunner implements QueryRunner {
   }
 
   async createStringTable(table: string, columns: string[], rows: Array<Array<string | null>>): Promise<void> {
-    const cols = ['"__row" BIGINT', ...columns.map((c) => `${quoteIdent(c)} VARCHAR`)].join(', ');
+    const name = `${table}__matrix.csv`;
+    await this.registerText(name, matrixToCsv(rows, columns.length));
     await this.exec(`DROP TABLE IF EXISTS ${quoteIdent(table)}`);
-    await this.exec(`CREATE TABLE ${quoteIdent(table)} (${cols})`);
-    const batch = 500;
-    for (let start = 0; start < rows.length; start += batch) {
-      const values = rows
-        .slice(start, start + batch)
-        .map((r, i) => `(${[start + i + 1, ...columns.map((_, c) => sqlLiteral(r[c] ?? null))].join(', ')})`)
-        .join(', ');
-      await this.exec(`INSERT INTO ${quoteIdent(table)} VALUES ${values}`);
-    }
+    await this.exec(createFromMatrixSql(table, name, columns));
+    await this.dropFile(name);
   }
 
   async copyToBuffer(selectSql: string, format: 'parquet' | 'csv', options = ''): Promise<Uint8Array> {

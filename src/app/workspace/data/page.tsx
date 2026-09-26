@@ -1,5 +1,5 @@
-import { PlaceholderView } from '@/components/views/PlaceholderView';
+import { DataView } from '@/components/data/DataView';
 
 export default function Page() {
-  return <PlaceholderView title="views.data.title" text="views.data.empty" />;
+  return <DataView />;
 }

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Sidebar, useSidebarCollapsed } from './Sidebar';
 import { TopBar } from './TopBar';
 import { useUiStore } from '@/store/ui';
+import { ImportController } from '@/components/sources/ImportController';
 
 function isTypingTarget(el: EventTarget | null): boolean {
   if (!(el instanceof HTMLElement)) return false;
@@ -36,6 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {children}
         </main>
       </div>
+      <ImportController />
     </div>
   );
 }

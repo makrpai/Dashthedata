@@ -87,3 +87,16 @@ describe('ingest into DuckDB (integration)', () => {
     expect(row).toEqual({ __row: 1, c0: 1, c1: 'x1', c2: 1.5, c3: '2025-01-02' });
   });
 });
+
+describe('matrix loading', () => {
+  it('round-trips quotes, commas, newlines and NULLs', async () => {
+    const tricky = [['a "quoted" value', 'x,y'], ['line1\nline2', null], ['NULL', '']];
+    await ingestMatrix(db, 'raw_tricky', tricky);
+    const rows = await db.query('SELECT c0, c1 FROM raw_tricky ORDER BY __row');
+    expect(rows).toEqual([
+      { c0: 'a "quoted" value', c1: 'x,y' },
+      { c0: 'line1\nline2', c1: null },
+      { c0: 'NULL', c1: '' },
+    ]);
+  });
+});

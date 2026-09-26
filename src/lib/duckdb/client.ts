@@ -1,8 +1,8 @@
 'use client';
 
 import * as duckdb from '@duckdb/duckdb-wasm';
-import { Int32, Table, Utf8, makeVector, vectorFromArray, type Vector } from 'apache-arrow';
 import { arrowTableToRows } from './arrow';
+import { createFromMatrixSql, matrixToCsv } from './matrixCsv';
 import { TaskQueue } from './queue';
 import { quoteIdent } from './sql';
 import type { QueryRunner, Row } from './types';
@@ -98,33 +98,14 @@ export class BrowserRunner implements QueryRunner {
 
   createStringTable(table: string, columns: string[], rows: Array<Array<string | null>>): Promise<void> {
     return this.queue.run(async () => {
-      const rowNumbers = Int32Array.from({ length: rows.length }, (_, i) => i + 1);
-      const vectors: Record<string, Vector> = {
-        __row: makeVector({ type: new Int32(), data: rowNumbers }),
-      };
-      columns.forEach((name, c) => {
-        vectors[name] = vectorFromArray(
-          rows.map((r) => r[c] ?? null),
-          new Utf8(),
-        );
-      });
-      const arrowTable = new Table(vectors);
-      await this.conn.query(`DROP TABLE IF EXISTS ${quoteIdent(table)}`);
-      if (rows.length === 0) {
-        const cols = ['"__row" BIGINT', ...columns.map((c) => `${quoteIdent(c)} VARCHAR`)].join(', ');
-        await this.conn.query(`CREATE TABLE ${quoteIdent(table)} (${cols})`);
-        return;
+      const name = `${table}__matrix.csv`;
+      await this.db.registerFileText(name, matrixToCsv(rows, columns.length));
+      try {
+        await this.conn.query(`DROP TABLE IF EXISTS ${quoteIdent(table)}`);
+        await this.conn.query(createFromMatrixSql(table, name, columns));
+      } finally {
+        await this.db.dropFile(name);
       }
-      const tmp = `${table}__arrow`;
-      await this.conn.insertArrowTable(arrowTable, { name: tmp, create: true });
-      const select = [
-        'CAST("__row" AS BIGINT) AS "__row"',
-        ...columns.map((c) => `CAST(${quoteIdent(c)} AS VARCHAR) AS ${quoteIdent(c)}`),
-      ];
-      await this.conn.query(
-        `CREATE TABLE ${quoteIdent(table)} AS SELECT ${select.join(', ')} FROM ${quoteIdent(tmp)} ORDER BY "__row"`,
-      );
-      await this.conn.query(`DROP TABLE IF EXISTS ${quoteIdent(tmp)}`);
     });
   }
 

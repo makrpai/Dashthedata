@@ -1,0 +1,32 @@
+{
+  "columns": [
+    "Tuote:text:dimension",
+    "Kvartaali:date:time",
+    "Arvo:integer:measure"
+  ],
+  "rowCount": 20,
+  "steps": [
+    "promoteHeader",
+    "dropColumn",
+    "unpivot",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "tuote": "Kengät",
+      "kvartaali": "2025-01-01",
+      "arvo": "4405"
+    },
+    {
+      "tuote": "Kengät",
+      "kvartaali": "2025-04-01",
+      "arvo": "1337"
+    },
+    {
+      "tuote": "Kengät",
+      "kvartaali": "2025-07-01",
+      "arvo": "6568"
+    }
+  ]
+}

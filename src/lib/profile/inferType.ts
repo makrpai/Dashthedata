@@ -61,6 +61,7 @@ export function inferColumnType(
   rawValues: string[],
   header: string,
   dataLocale: 'fi' | 'en',
+  opts: { canonicalNumbers?: boolean } = {},
 ): Inference {
   const values = rawValues.map((v) => v.trim()).filter((v) => v !== '');
   const text = (warnings: DataWarning[] = []): Inference => ({
@@ -82,7 +83,7 @@ export function inferColumnType(
   if (leadingZero.length / values.length > 0.05) return text();
   if (digitsOnly.some((v) => v.length > 15)) return text();
 
-  const decision = decideNumberFormat(values, dataLocale);
+  const decision = decideNumberFormat(values, dataLocale, opts);
   const parsed = values.map((v) => parseNumber(v, decision.spec));
   const okCount = parsed.filter((n) => n !== null).length;
   const numberRatio = okCount / values.length;

@@ -1,0 +1,26 @@
+{
+  "columns": [
+    "Tapahtuma:text:dimension",
+    "Pvm:date:time"
+  ],
+  "rowCount": 4,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "tapahtuma": "A",
+      "pvm": "2025-02-01"
+    },
+    {
+      "tapahtuma": "B",
+      "pvm": "2025-04-03"
+    },
+    {
+      "tapahtuma": "C",
+      "pvm": "2025-06-05"
+    }
+  ]
+}

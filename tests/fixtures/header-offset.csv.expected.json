@@ -1,0 +1,31 @@
+{
+  "columns": [
+    "Tuote:text:dimension",
+    "Kpl:integer:measure",
+    "Summa:decimal:measure"
+  ],
+  "rowCount": 4,
+  "steps": [
+    "skipRows",
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "tuote": "Kengät",
+      "kpl": "12",
+      "summa": "1204.5"
+    },
+    {
+      "tuote": "Takit",
+      "kpl": "4",
+      "summa": "980.0"
+    },
+    {
+      "tuote": "Pipot",
+      "kpl": "30",
+      "summa": "450.0"
+    }
+  ]
+}

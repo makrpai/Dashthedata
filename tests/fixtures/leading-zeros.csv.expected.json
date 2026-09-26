@@ -1,0 +1,30 @@
+{
+  "columns": [
+    "Asiakasnumero:text:id",
+    "Postinumero:text:id",
+    "Määrä:integer:measure"
+  ],
+  "rowCount": 4,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "asiakasnumero": "000123",
+      "postinumero": "00100",
+      "maara": "5"
+    },
+    {
+      "asiakasnumero": "000456",
+      "postinumero": "02100",
+      "maara": "7"
+    },
+    {
+      "asiakasnumero": "001789",
+      "postinumero": "33100",
+      "maara": "1"
+    }
+  ]
+}

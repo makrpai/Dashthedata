@@ -1,0 +1,30 @@
+{
+  "columns": [
+    "Hinta:decimal:measure",
+    "Tuote:text:dimension",
+    "Määrä:integer:measure"
+  ],
+  "rowCount": 3,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "hinta": "29.9",
+      "tuote": "Pipo",
+      "maara": "3"
+    },
+    {
+      "hinta": "45.0",
+      "tuote": "Vyö",
+      "maara": "1"
+    },
+    {
+      "hinta": "89.9",
+      "tuote": "Kengät",
+      "maara": "1"
+    }
+  ]
+}

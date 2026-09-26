@@ -1,0 +1,30 @@
+{
+  "columns": [
+    "time:date:time",
+    "temperature_2m_max:decimal:measure",
+    "precipitation_sum:decimal:measure"
+  ],
+  "rowCount": 14,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "time": "2025-01-01",
+      "temperature_2m_max": "-1.5",
+      "precipitation_sum": "0.2"
+    },
+    {
+      "time": "2025-01-02",
+      "temperature_2m_max": "0.3",
+      "precipitation_sum": "1.4"
+    },
+    {
+      "time": "2025-01-03",
+      "temperature_2m_max": "1.2",
+      "precipitation_sum": "3.1"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "columns": [
+    "tilaus_id:integer:id",
+    "asiakas_id:integer:id",
+    "pvm:date:time",
+    "summa:decimal:measure"
+  ],
+  "rowCount": 300,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "tilaus_id": "5001",
+      "asiakas_id": "24",
+      "pvm": "2025-04-02",
+      "summa": "280.59"
+    },
+    {
+      "tilaus_id": "5002",
+      "asiakas_id": "32",
+      "pvm": "2025-04-14",
+      "summa": "577.25"
+    },
+    {
+      "tilaus_id": "5003",
+      "asiakas_id": "54",
+      "pvm": "2025-08-20",
+      "summa": "167.46"
+    }
+  ]
+}

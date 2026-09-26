@@ -1,0 +1,43 @@
+{
+  "columns": [
+    "Alue:text:dimension",
+    "Tuoteryhmä:text:dimension",
+    "Kuukausi:date:time",
+    "Myynti:decimal:measure"
+  ],
+  "rowCount": 288,
+  "steps": [
+    "dropEmptyColumns",
+    "dropEmptyRows",
+    "skipRows",
+    "promoteHeader",
+    "trimWhitespace",
+    "removeTotalRows",
+    "dropColumn",
+    "fillDown",
+    "unpivot",
+    "castTypes",
+    "standardizeCategories"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "alue": "Helsinki",
+      "tuoteryhma": "Kengät",
+      "kuukausi": "2025-01-01",
+      "myynti": "23084.46"
+    },
+    {
+      "alue": "Helsinki",
+      "tuoteryhma": "Kengät",
+      "kuukausi": "2025-02-01",
+      "myynti": "22472.98"
+    },
+    {
+      "alue": "Helsinki",
+      "tuoteryhma": "Kengät",
+      "kuukausi": "2025-03-01",
+      "myynti": "25806.77"
+    }
+  ]
+}

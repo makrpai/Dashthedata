@@ -1,0 +1,34 @@
+{
+  "columns": [
+    "Kaupunki:text:dimension",
+    "Myyjä:text:dimension",
+    "Myynti €:decimal:measure",
+    "Päivä:date:time"
+  ],
+  "rowCount": 3,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "kaupunki": "Hämeenlinna",
+      "myyja": "Äijälä",
+      "myynti": "1234.56",
+      "paiva": "2025-12-31"
+    },
+    {
+      "kaupunki": "Jyväskylä",
+      "myyja": "Öhman",
+      "myynti": "987.1",
+      "paiva": "2025-01-01"
+    },
+    {
+      "kaupunki": "Mäntsälä",
+      "myyja": "Kärkkäinen",
+      "myynti": "-12.5",
+      "paiva": "2025-06-15"
+    }
+  ]
+}

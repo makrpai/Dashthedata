@@ -75,3 +75,16 @@ describe('numberCastSql matches the JS parser', () => {
     else expect(row.v).toBeCloseTo(js, 10);
   });
 });
+
+describe('mixed separators', () => {
+  it('Excel numbers mixed with Finnish text numbers', () => {
+    const d = decideNumberFormat(['23084.46', '12 400,50', '980.5'], 'fi');
+    expect(d.spec.decimal).toBe('either');
+    expect(parseNumber('12 400,50', d.spec)).toBe(12400.5);
+    expect(parseNumber('23084.46', d.spec)).toBe(23084.46);
+  });
+  it('canonical dot decimals are not read as thousands', () => {
+    expect(decideNumberFormat(['1.125', '2.500'], 'fi', { canonicalNumbers: true }).spec).toMatchObject({ decimal: '.', thousands: '' });
+    expect(decideNumberFormat(['1.125', '2.500'], 'fi').spec).toMatchObject({ decimal: ',', thousands: '.' });
+  });
+});

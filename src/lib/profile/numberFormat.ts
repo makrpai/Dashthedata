@@ -5,7 +5,8 @@ import { sqlLiteral } from '@/lib/duckdb/sql';
  * so what the preview promises is exactly what castTypes produces.
  */
 export interface NumberFormatSpec {
-  decimal: ',' | '.';
+  /** 'either': both ',' and '.' act as decimal separators (Excel numbers mixed with Finnish text). */
+  decimal: ',' | '.' | 'either';
   /** Thousands separator after whitespace has been removed: '.', ',' or none. Spaces are always dropped. */
   thousands: '.' | ',' | '';
   percent?: boolean;
@@ -52,7 +53,7 @@ export function preprocessNumber(raw: string): Preprocessed | null {
   return { text: s, currency, percent };
 }
 
-const esc = (c: string) => (c === '.' ? '\\.' : c);
+const esc = (c: string) => (c === '.' ? '\\.' : c === 'either' ? '[.,]' : c);
 
 /** Anchored pattern a preprocessed value must match for a given format (RE2 and JS compatible). */
 export function validNumberPattern(spec: Pick<NumberFormatSpec, 'decimal' | 'thousands'>): string {
@@ -68,10 +69,10 @@ export function parseNumber(raw: string, spec: NumberFormatSpec): number | null 
   if (!new RegExp(validNumberPattern(spec)).test(pre.text)) return null;
   let s = pre.text;
   if (spec.thousands) s = s.split(spec.thousands).join('');
-  if (spec.decimal === ',') s = s.replace(',', '.');
+  if (spec.decimal !== '.') s = s.replace(',', '.');
   const n = Number(s);
   if (!Number.isFinite(n)) return null;
-  return pre.percent || spec.percent ? (pre.percent ? n / 100 : n) : n;
+  return pre.percent ? n / 100 : n;
 }
 
 export interface NumberDecision {
@@ -87,7 +88,11 @@ export interface NumberDecision {
  * 3. only . → the same
  * 4. ambiguous → data locale (auto → browser language), flagged with `ambiguous_format`.
  */
-export function decideNumberFormat(values: string[], dataLocale: 'fi' | 'en'): NumberDecision {
+export function decideNumberFormat(
+  values: string[],
+  dataLocale: 'fi' | 'en',
+  opts: { canonicalNumbers?: boolean } = {},
+): NumberDecision {
   const pre = values.map(preprocessNumber).filter((p): p is Preprocessed => p !== null);
   const currencies = new Map<string, number>();
   let percentCount = 0;
@@ -125,19 +130,29 @@ export function decideNumberFormat(values: string[], dataLocale: 'fi' | 'en'): N
   const dot = judge('.');
   // A dollar or pound sign implies English grouping when the separator is ambiguous.
   const localeHint: 'fi' | 'en' = currency === 'USD' || currency === 'GBP' ? 'en' : dataLocale;
+  const flagged = currency !== 'USD' && currency !== 'GBP';
+  const spec = (decimal: NumberFormatSpec['decimal'], thousands: NumberFormatSpec['thousands'], ambiguous = false): NumberDecision => ({
+    spec: { decimal, thousands, ...base },
+    ambiguous,
+  });
+  if (comma && dot) {
+    // Some values use commas and others dots, never both in one value.
+    if (comma === 'decimal' && dot === 'decimal') return spec('either', '');
+    if (comma === 'decimal') return spec(',', '.');
+    if (dot === 'decimal') return spec('.', ',');
+    return localeHint === 'fi' ? spec(',', '.', true) : spec('.', ',', true);
+  }
   if (comma) {
-    if (comma === 'decimal') return { spec: { decimal: ',', thousands: '', ...base }, ambiguous: false };
-    if (comma === 'thousands') return { spec: { decimal: '.', thousands: ',', ...base }, ambiguous: false };
-    return localeHint === 'fi'
-      ? { spec: { decimal: ',', thousands: '', ...base }, ambiguous: currency !== 'USD' && currency !== 'GBP' }
-      : { spec: { decimal: '.', thousands: ',', ...base }, ambiguous: currency !== 'USD' && currency !== 'GBP' };
+    if (comma === 'decimal') return spec(',', '');
+    if (comma === 'thousands') return spec('.', ',');
+    return localeHint === 'fi' ? spec(',', '', flagged) : spec('.', ',', flagged);
   }
   if (dot) {
-    if (dot === 'decimal') return { spec: { decimal: '.', thousands: '', ...base }, ambiguous: false };
-    if (dot === 'thousands') return { spec: { decimal: ',', thousands: '.', ...base }, ambiguous: false };
-    return localeHint === 'fi'
-      ? { spec: { decimal: ',', thousands: '.', ...base }, ambiguous: true }
-      : { spec: { decimal: '.', thousands: '', ...base }, ambiguous: true };
+    if (dot === 'decimal') return spec('.', '');
+    if (dot === 'thousands') return spec(',', '.');
+    // Excel/JSON numbers are written with a dot decimal, so 1.125 stays 1.125.
+    if (opts.canonicalNumbers) return spec('.', '');
+    return localeHint === 'fi' ? spec(',', '.', true) : spec('.', '', true);
   }
   return { spec: { decimal: dataLocale === 'fi' ? ',' : '.', thousands: '', ...base }, ambiguous: false };
 }
@@ -162,7 +177,7 @@ export function numberCastSql(expr: string, spec: NumberFormatSpec): string {
   const valid = `regexp_matches(${x}, ${sqlLiteral(validNumberPattern(spec))})`;
   let cleaned = x;
   if (spec.thousands) cleaned = `replace(${cleaned}, ${sqlLiteral(spec.thousands)}, '')`;
-  if (spec.decimal === ',') cleaned = `replace(${cleaned}, ',', '.')`;
+  if (spec.decimal !== '.') cleaned = `replace(${cleaned}, ',', '.')`;
   return (
     `(CASE WHEN ${valid} THEN TRY_CAST(${cleaned} AS DOUBLE) ` +
     `* (CASE WHEN ${neg} THEN -1 ELSE 1 END) / (CASE WHEN ${pct} THEN 100 ELSE 1 END) END)`

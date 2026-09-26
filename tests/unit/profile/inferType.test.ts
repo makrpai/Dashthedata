@@ -64,3 +64,10 @@ describe('inferRole (8.5)', () => {
     expect(inferRole({ ...base, type: 'text', displayName: 'Kommentti', stats: { count: 100, nulls: 0, distinct: 90 }, avgLength: 80, lengthStddev: 30 })).toBe('text');
   });
 });
+
+describe('foreign keys', () => {
+  it('asiakas_id is an identifier even with repeated values', () => {
+    expect(inferRole({ type: 'integer', displayName: 'asiakas_id', stats: { count: 300, nulls: 0, distinct: 60 }, rowCount: 300 })).toBe('id');
+    expect(inferRole({ type: 'integer', displayName: 'Määrä', stats: { count: 300, nulls: 0, distinct: 60 }, rowCount: 300 })).toBe('measure');
+  });
+});

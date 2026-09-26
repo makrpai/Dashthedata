@@ -1,0 +1,30 @@
+{
+  "columns": [
+    "Sarake 1:integer:measure",
+    "Sarake 2:integer:measure",
+    "Sarake 3:decimal:measure"
+  ],
+  "rowCount": 20,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "sarake_1": "1",
+      "sarake_2": "0",
+      "sarake_3": "0.0"
+    },
+    {
+      "sarake_1": "2",
+      "sarake_2": "7",
+      "sarake_3": "3.1"
+    },
+    {
+      "sarake_1": "3",
+      "sarake_2": "1",
+      "sarake_3": "6.2"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "columns": [
+    "id:integer:id",
+    "nimi:text:dimension",
+    "kategoria.id:integer:id",
+    "kategoria.nimi:text:dimension",
+    "hinta:decimal:measure",
+    "varastossa:integer:measure",
+    "tagit:text:dimension"
+  ],
+  "rowCount": 12,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "id": "1",
+      "nimi": "Tunturivyö",
+      "kategoria_id": "3",
+      "kategoria_nimi": "Asusteet",
+      "hinta": "147.27",
+      "varastossa": "227",
+      "tagit": "ale, kotimainen"
+    },
+    {
+      "id": "2",
+      "nimi": "Sadekenkä",
+      "kategoria_id": "1",
+      "kategoria_nimi": "Kengät",
+      "hinta": "270.04",
+      "varastossa": "72",
+      "tagit": "kotimainen"
+    },
+    {
+      "id": "3",
+      "nimi": "Kaupunkipaita",
+      "kategoria_id": "4",
+      "kategoria_nimi": "Urheilu",
+      "hinta": "53.51",
+      "varastossa": "117",
+      "tagit": "ale, suosikki"
+    }
+  ]
+}

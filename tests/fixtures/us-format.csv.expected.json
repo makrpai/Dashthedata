@@ -1,0 +1,30 @@
+{
+  "columns": [
+    "Customer:text:dimension",
+    "Amount:decimal:measure",
+    "Date:date:time"
+  ],
+  "rowCount": 3,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "customer": "Acme",
+      "amount": "1234.56",
+      "date": "2025-12-31"
+    },
+    {
+      "customer": "Globex",
+      "amount": "987.1",
+      "date": "2025-01-15"
+    },
+    {
+      "customer": "Initech",
+      "amount": "12000.0",
+      "date": "2025-06-30"
+    }
+  ]
+}

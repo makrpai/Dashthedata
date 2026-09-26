@@ -1,0 +1,34 @@
+{
+  "columns": [
+    "id:integer:id",
+    "nimi:text:dimension",
+    "kaupunki:text:dimension",
+    "segmentti:text:dimension"
+  ],
+  "rowCount": 60,
+  "steps": [
+    "promoteHeader",
+    "castTypes"
+  ],
+  "suggestions": [],
+  "checkRows": [
+    {
+      "id": "1",
+      "nimi": "Mikko Järvinen",
+      "kaupunki": "Turku",
+      "segmentti": "Yritys"
+    },
+    {
+      "id": "2",
+      "nimi": "Aino Järvinen",
+      "kaupunki": "Helsinki",
+      "segmentti": "Kuluttaja"
+    },
+    {
+      "id": "3",
+      "nimi": "Juha Koskinen",
+      "kaupunki": "Tampere",
+      "segmentti": "Kuluttaja"
+    }
+  ]
+}

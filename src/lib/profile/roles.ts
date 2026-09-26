@@ -1,6 +1,8 @@
 import type { ColumnRole, ColumnStats, ColumnType, TimeGrain } from '@/types/domain';
 
-const ID_HEADER_RE = /(^|[^a-zäö])(id|tunnus|numero|nro|no\.|koodi|code|key|avain)([^a-zäö]|$)|_id$|id$/i;
+/** Names that are identifiers even when values repeat (foreign keys such as asiakas_id). */
+const KEY_NAME_RE = /(^|[_\s.-])(id|tunnus|nro|koodi|code|key|avain)$|^(id|nro)$/i;
+const ID_HEADER_RE = /(tunnus|numero|nro|koodi|code|avain)|(^|[^a-zäö])(id|no\.|key)([^a-zäö]|$)|_id$/i;
 
 export interface RoleInput {
   type: ColumnType;
@@ -20,6 +22,7 @@ export function inferRole(input: RoleInput): ColumnRole {
   if (input.type === 'date' || input.type === 'datetime') return 'time';
   if (input.type === 'integer' && input.timeGrainHint === 'year') return 'time';
   if (uniq >= 0.95 && ID_HEADER_RE.test(input.displayName) && nonNull > 1) return 'id';
+  if ((input.type === 'integer' || input.type === 'text') && KEY_NAME_RE.test(input.displayName.trim())) return 'id';
   if (
     input.type === 'text' &&
     uniq >= 0.98 &&

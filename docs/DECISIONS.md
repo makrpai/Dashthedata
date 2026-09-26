@@ -135,3 +135,30 @@ Time zone offsets in ISO timestamps are dropped (wall-clock time is kept).
   hide it from relationship detection (10.2 only considers id/dimension columns).
 - **Suggestions** are stored as steps with `suggested: true` and `enabled: false`; "Apply" turns them
   on, "Dismiss" removes them.
+
+## 2026-09-26 – Chart palette validated and adjusted
+**Context:** The plan's palette (17.4) was checked with a colour validator (OKLCH lightness band,
+chroma floor, CVD and normal-vision separation of adjacent series, contrast on the chart surface).
+It failed: navy too dark for the band, slate and grey below the chroma floor (read as grey), sky and
+slate too close even for normal vision.
+**Decision:** Seven categorical hues from the same brand families, in fixed order:
+light `#2C62A8 #E85D56 #1B998B #8E5BA8 #D69A1D #5AA9DE #C4507F`,
+dark `#4A80CC #E4675F #1FA090 #9E72C4 #BF8A1C #4899CF #CF5C8A` (own steps for the dark surface,
+not an automatic flip). Both pass every adjacent-pair check; amber and sky are below 3:1 on the light
+surface, which is covered by the table view every chart has and by labels. Slate is reserved for the
+"Other" series. Series are capped at 7 (+ Other), always with a legend and line markers, because
+seven hues cannot pass the all-pairs check.
+
+## 2026-09-26 – Chart implementation notes
+- ECharts is imported modularly (`echarts/core` + the five chart types used) and loaded only when a
+  chart mounts, so the landing page never downloads it.
+- Stacked series: 1 px surface-coloured borders give the 2 px gap between segments; only the topmost
+  segment per category gets the 4 px rounded data-end.
+- Series colours follow the entity: the index comes from the column profile's top-value order,
+  unaffected by filters (a filter never repaints the survivors).
+- Bar charts fetch 31 rows to know whether to show "Showing the 30 largest"; for charts with a series
+  the x categories are limited in SQL instead.
+- KPI comparison: last full month vs the month before (monthly data counts every month as full);
+  with a date-range filter the range is compared with an equally long period right before it.
+- Auto titles store column references (`col:<id>`) and are resolved at render time, so renaming a
+  column updates titles and the UI language switches them instantly.

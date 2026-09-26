@@ -1,5 +1,6 @@
-import { PlaceholderView } from '@/components/views/PlaceholderView';
+import { DashboardRoute } from '@/components/dashboard/DashboardRoute';
 
-export default function Page() {
-  return <PlaceholderView title="views.dashboards.title" text="views.dashboards.empty" />;
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <DashboardRoute id={id} />;
 }

@@ -35,8 +35,8 @@ Checklist of the phases in the implementation plan (section 23). Tick items as t
 - [x] Fixtures match expectations
 
 ## Phase 4 – Charts
-- [ ] `spec.ts`, `queryBuilder.ts`, `echartsOption.ts`, `format.ts` + tests
-- [ ] EChart wrapper, ChartTile, ChartEditor, table view
+- [x] `spec.ts`, `queryBuilder.ts`, `echartsOption.ts`, `format.ts` + tests
+- [x] EChart wrapper, ChartTile, ChartEditor, table view
 
 ## Phase 5 – Suggestions and automatic dashboard
 - [ ] Suggestion engine, reasons, autoLayout, suggestion panel, "Why this?"

@@ -1,0 +1,693 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`toEChartsOption (en) > bar chart snapshot 1`] = `
+{
+  "animation": true,
+  "animationDuration": 300,
+  "aria": {
+    "enabled": true,
+    "label": {
+      "description": "",
+      "enabled": true,
+    },
+  },
+  "backgroundColor": "transparent",
+  "grid": {
+    "bottom": 8,
+    "containLabel": true,
+    "left": 8,
+    "right": 16,
+    "top": 16,
+  },
+  "legend": undefined,
+  "series": [
+    {
+      "areaStyle": undefined,
+      "barMaxWidth": 48,
+      "data": [
+        {
+          "itemStyle": {
+            "opacity": 1,
+          },
+          "value": 4200000,
+        },
+        {
+          "itemStyle": {
+            "opacity": 1,
+          },
+          "value": 1900000,
+        },
+        {
+          "itemStyle": {
+            "opacity": 1,
+          },
+          "value": 800000,
+        },
+      ],
+      "itemStyle": {
+        "borderRadius": [
+          4,
+          4,
+          0,
+          0,
+        ],
+        "color": "#2c62a8",
+      },
+      "label": undefined,
+      "large": false,
+      "lineStyle": undefined,
+      "name": "Myynti",
+      "progressive": undefined,
+      "showSymbol": true,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "bar",
+    },
+  ],
+  "textStyle": {
+    "color": "#0f2747",
+    "fontFamily": "Manrope",
+  },
+  "tooltip": {
+    "axisPointer": {
+      "lineStyle": {
+        "color": "#4a5878",
+        "width": 1,
+      },
+      "type": "shadow",
+    },
+    "backgroundColor": "#f8fafc",
+    "borderColor": "rgba(15,39,71,0.16)",
+    "borderWidth": 1,
+    "confine": true,
+    "extraCssText": "border-radius:10px;box-shadow:none;",
+    "formatter": [Function],
+    "padding": [
+      8,
+      10,
+    ],
+    "textStyle": {
+      "color": "#0f2747",
+      "fontFamily": "Manrope",
+      "fontSize": 13,
+    },
+    "trigger": "axis",
+  },
+  "xAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "hideOverlap": true,
+      "overflow": "truncate",
+      "width": undefined,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "boundaryGap": true,
+    "data": [
+      "Helsinki",
+      "Tampere",
+      "(blank)",
+    ],
+    "inverse": false,
+    "splitLine": {
+      "show": false,
+    },
+    "type": "category",
+  },
+  "yAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "formatter": [Function],
+      "hideOverlap": true,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "splitLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+        "type": "dashed",
+      },
+    },
+    "type": "value",
+  },
+}
+`;
+
+exports[`toEChartsOption (en) > line with series snapshot 1`] = `
+{
+  "animation": true,
+  "animationDuration": 300,
+  "aria": {
+    "enabled": true,
+    "label": {
+      "description": "",
+      "enabled": true,
+    },
+  },
+  "backgroundColor": "transparent",
+  "dataZoom": undefined,
+  "grid": {
+    "bottom": 8,
+    "containLabel": true,
+    "left": 8,
+    "right": 16,
+    "top": 36,
+  },
+  "legend": {
+    "icon": "roundRect",
+    "itemHeight": 10,
+    "itemWidth": 10,
+    "textStyle": {
+      "color": "#4a5878",
+    },
+    "top": 0,
+    "type": "scroll",
+  },
+  "series": [
+    {
+      "areaStyle": undefined,
+      "data": [
+        10,
+        12,
+      ],
+      "emphasis": {
+        "focus": "series",
+      },
+      "itemStyle": {
+        "borderColor": undefined,
+        "borderWidth": 0,
+        "color": "#2c62a8",
+        "opacity": 1,
+      },
+      "large": false,
+      "lineStyle": {
+        "opacity": 1,
+        "width": 2,
+      },
+      "name": "Helsinki",
+      "showSymbol": true,
+      "stack": undefined,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "line",
+    },
+    {
+      "areaStyle": undefined,
+      "data": [
+        4,
+        null,
+      ],
+      "emphasis": {
+        "focus": "series",
+      },
+      "itemStyle": {
+        "borderColor": undefined,
+        "borderWidth": 0,
+        "color": "#1b998b",
+        "opacity": 1,
+      },
+      "large": false,
+      "lineStyle": {
+        "opacity": 1,
+        "width": 2,
+      },
+      "name": "Oulu",
+      "showSymbol": true,
+      "stack": undefined,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "line",
+    },
+    {
+      "areaStyle": undefined,
+      "data": [
+        null,
+        3,
+      ],
+      "emphasis": {
+        "focus": "series",
+      },
+      "itemStyle": {
+        "borderColor": undefined,
+        "borderWidth": 0,
+        "color": "#7d8aa6",
+        "opacity": 1,
+      },
+      "large": false,
+      "lineStyle": {
+        "opacity": 1,
+        "width": 2,
+      },
+      "name": "Other",
+      "showSymbol": true,
+      "stack": undefined,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "line",
+    },
+  ],
+  "textStyle": {
+    "color": "#0f2747",
+    "fontFamily": "Manrope",
+  },
+  "tooltip": {
+    "axisPointer": {
+      "lineStyle": {
+        "color": "#4a5878",
+        "width": 1,
+      },
+      "type": "line",
+    },
+    "backgroundColor": "#f8fafc",
+    "borderColor": "rgba(15,39,71,0.16)",
+    "borderWidth": 1,
+    "confine": true,
+    "extraCssText": "border-radius:10px;box-shadow:none;",
+    "formatter": [Function],
+    "padding": [
+      8,
+      10,
+    ],
+    "textStyle": {
+      "color": "#0f2747",
+      "fontFamily": "Manrope",
+      "fontSize": 13,
+    },
+    "trigger": "axis",
+  },
+  "xAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "hideOverlap": true,
+      "overflow": "truncate",
+      "width": undefined,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "boundaryGap": false,
+    "data": [
+      "Jan 2025",
+      "Feb 2025",
+    ],
+    "inverse": false,
+    "splitLine": {
+      "show": false,
+    },
+    "type": "category",
+  },
+  "yAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "formatter": [Function],
+      "hideOverlap": true,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "splitLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+        "type": "dashed",
+      },
+    },
+    "type": "value",
+  },
+}
+`;
+
+exports[`toEChartsOption (fi) > bar chart snapshot 1`] = `
+{
+  "animation": true,
+  "animationDuration": 300,
+  "aria": {
+    "enabled": true,
+    "label": {
+      "description": "",
+      "enabled": true,
+    },
+  },
+  "backgroundColor": "transparent",
+  "grid": {
+    "bottom": 8,
+    "containLabel": true,
+    "left": 8,
+    "right": 16,
+    "top": 16,
+  },
+  "legend": undefined,
+  "series": [
+    {
+      "areaStyle": undefined,
+      "barMaxWidth": 48,
+      "data": [
+        {
+          "itemStyle": {
+            "opacity": 1,
+          },
+          "value": 4200000,
+        },
+        {
+          "itemStyle": {
+            "opacity": 1,
+          },
+          "value": 1900000,
+        },
+        {
+          "itemStyle": {
+            "opacity": 1,
+          },
+          "value": 800000,
+        },
+      ],
+      "itemStyle": {
+        "borderRadius": [
+          4,
+          4,
+          0,
+          0,
+        ],
+        "color": "#2c62a8",
+      },
+      "label": undefined,
+      "large": false,
+      "lineStyle": undefined,
+      "name": "Myynti",
+      "progressive": undefined,
+      "showSymbol": true,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "bar",
+    },
+  ],
+  "textStyle": {
+    "color": "#0f2747",
+    "fontFamily": "Manrope",
+  },
+  "tooltip": {
+    "axisPointer": {
+      "lineStyle": {
+        "color": "#4a5878",
+        "width": 1,
+      },
+      "type": "shadow",
+    },
+    "backgroundColor": "#f8fafc",
+    "borderColor": "rgba(15,39,71,0.16)",
+    "borderWidth": 1,
+    "confine": true,
+    "extraCssText": "border-radius:10px;box-shadow:none;",
+    "formatter": [Function],
+    "padding": [
+      8,
+      10,
+    ],
+    "textStyle": {
+      "color": "#0f2747",
+      "fontFamily": "Manrope",
+      "fontSize": 13,
+    },
+    "trigger": "axis",
+  },
+  "xAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "hideOverlap": true,
+      "overflow": "truncate",
+      "width": undefined,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "boundaryGap": true,
+    "data": [
+      "Helsinki",
+      "Tampere",
+      "(tyhjä)",
+    ],
+    "inverse": false,
+    "splitLine": {
+      "show": false,
+    },
+    "type": "category",
+  },
+  "yAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "formatter": [Function],
+      "hideOverlap": true,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "splitLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+        "type": "dashed",
+      },
+    },
+    "type": "value",
+  },
+}
+`;
+
+exports[`toEChartsOption (fi) > line with series snapshot 1`] = `
+{
+  "animation": true,
+  "animationDuration": 300,
+  "aria": {
+    "enabled": true,
+    "label": {
+      "description": "",
+      "enabled": true,
+    },
+  },
+  "backgroundColor": "transparent",
+  "dataZoom": undefined,
+  "grid": {
+    "bottom": 8,
+    "containLabel": true,
+    "left": 8,
+    "right": 16,
+    "top": 36,
+  },
+  "legend": {
+    "icon": "roundRect",
+    "itemHeight": 10,
+    "itemWidth": 10,
+    "textStyle": {
+      "color": "#4a5878",
+    },
+    "top": 0,
+    "type": "scroll",
+  },
+  "series": [
+    {
+      "areaStyle": undefined,
+      "data": [
+        10,
+        12,
+      ],
+      "emphasis": {
+        "focus": "series",
+      },
+      "itemStyle": {
+        "borderColor": undefined,
+        "borderWidth": 0,
+        "color": "#2c62a8",
+        "opacity": 1,
+      },
+      "large": false,
+      "lineStyle": {
+        "opacity": 1,
+        "width": 2,
+      },
+      "name": "Helsinki",
+      "showSymbol": true,
+      "stack": undefined,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "line",
+    },
+    {
+      "areaStyle": undefined,
+      "data": [
+        4,
+        null,
+      ],
+      "emphasis": {
+        "focus": "series",
+      },
+      "itemStyle": {
+        "borderColor": undefined,
+        "borderWidth": 0,
+        "color": "#1b998b",
+        "opacity": 1,
+      },
+      "large": false,
+      "lineStyle": {
+        "opacity": 1,
+        "width": 2,
+      },
+      "name": "Oulu",
+      "showSymbol": true,
+      "stack": undefined,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "line",
+    },
+    {
+      "areaStyle": undefined,
+      "data": [
+        null,
+        3,
+      ],
+      "emphasis": {
+        "focus": "series",
+      },
+      "itemStyle": {
+        "borderColor": undefined,
+        "borderWidth": 0,
+        "color": "#7d8aa6",
+        "opacity": 1,
+      },
+      "large": false,
+      "lineStyle": {
+        "opacity": 1,
+        "width": 2,
+      },
+      "name": "Muut",
+      "showSymbol": true,
+      "stack": undefined,
+      "symbol": "circle",
+      "symbolSize": 8,
+      "type": "line",
+    },
+  ],
+  "textStyle": {
+    "color": "#0f2747",
+    "fontFamily": "Manrope",
+  },
+  "tooltip": {
+    "axisPointer": {
+      "lineStyle": {
+        "color": "#4a5878",
+        "width": 1,
+      },
+      "type": "line",
+    },
+    "backgroundColor": "#f8fafc",
+    "borderColor": "rgba(15,39,71,0.16)",
+    "borderWidth": 1,
+    "confine": true,
+    "extraCssText": "border-radius:10px;box-shadow:none;",
+    "formatter": [Function],
+    "padding": [
+      8,
+      10,
+    ],
+    "textStyle": {
+      "color": "#0f2747",
+      "fontFamily": "Manrope",
+      "fontSize": 13,
+    },
+    "trigger": "axis",
+  },
+  "xAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "hideOverlap": true,
+      "overflow": "truncate",
+      "width": undefined,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "boundaryGap": false,
+    "data": [
+      "tammi 2025",
+      "helmi 2025",
+    ],
+    "inverse": false,
+    "splitLine": {
+      "show": false,
+    },
+    "type": "category",
+  },
+  "yAxis": {
+    "axisLabel": {
+      "color": "#4a5878",
+      "fontFamily": "Manrope",
+      "fontSize": 12,
+      "formatter": [Function],
+      "hideOverlap": true,
+    },
+    "axisLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+      },
+    },
+    "axisTick": {
+      "show": false,
+    },
+    "splitLine": {
+      "lineStyle": {
+        "color": "rgba(15,39,71,0.16)",
+        "type": "dashed",
+      },
+    },
+    "type": "value",
+  },
+}
+`;

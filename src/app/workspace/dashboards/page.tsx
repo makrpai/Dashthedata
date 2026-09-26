@@ -1,5 +1,5 @@
-import { PlaceholderView } from '@/components/views/PlaceholderView';
+import { DashboardsIndex } from '@/components/dashboard/DashboardsIndex';
 
 export default function Page() {
-  return <PlaceholderView title="views.dashboards.title" text="views.dashboards.noProject" withDataLink />;
+  return <DashboardsIndex />;
 }

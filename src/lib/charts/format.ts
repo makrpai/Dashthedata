@@ -34,7 +34,7 @@ export function formatNumber(value: number | null | undefined, locale: Locale, o
     return numberFormat(locale, { style: 'percent', maximumFractionDigits: opts.compact ? 0 : 1 }).format(value);
   }
   const base: Intl.NumberFormatOptions = opts.compact
-    ? { notation: 'compact', maximumFractionDigits: 1 }
+    ? { notation: 'compact', maximumFractionDigits: 1, minimumFractionDigits: 0 }
     : { maximumFractionDigits: digits, minimumFractionDigits: 0 };
   if (unit === 'currency' && opts.format?.currency) {
     try {

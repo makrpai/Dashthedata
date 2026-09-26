@@ -19,7 +19,7 @@ export async function processFixture(
 ) {
   const id = `t${++counter}`;
   const rawTable = `raw_${id}`;
-  const bytes = new Uint8Array(readFileSync(join(dir, file)));
+  const bytes = new Uint8Array(readFileSync(file.startsWith('/') ? file : join(dir, file)));
   const format = file.endsWith('.xlsx') ? 'xlsx' : file.endsWith('.json') ? 'json' : 'csv';
   let merged: number[] = [];
   let rowCount = 0;
@@ -38,17 +38,17 @@ export async function processFixture(
   const source: Source = {
     id: `s_${id}`,
     kind: 'file',
-    name: file,
+    name: file.split('/').pop()!,
     createdAt: '2026-01-01T00:00:00Z',
     rawTable,
     rowCount,
     typedAtSource: false,
-    file: { name: file, size: bytes.length, format, sheet: sheetName },
+    file: { name: file.split('/').pop()!, size: bytes.length, format, sheet: sheetName },
     mergedColumns: merged,
   };
   const dataset: Dataset = {
     id: `d_${id}`,
-    name: sheetName ?? file.replace(/\.[^.]+$/, ''),
+    name: sheetName ?? file.split('/').pop()!.replace(/\.[^.]+$/, ''),
     kind: 'source',
     sourceIds: [source.id],
     inputTable: rawTable,

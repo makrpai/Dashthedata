@@ -7,7 +7,7 @@ test.describe('clean-up (phase 3)', () => {
     await page.getByRole('button', { name: 'Kokeile esimerkkidatalla' }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Tuo valitut' }).click();
     await expect(page.getByText('Lisättiin 2 datasettiä')).toBeVisible({ timeout: 60_000 });
-    await page.getByRole('link', { name: 'Avaa siivous' }).first().click();
+    await expect(page).toHaveURL(/\/workspace\/transform\//);
 
     const log = page.getByRole('region', { name: 'Siivousloki' });
     for (const kind of ['Käytä riviä otsikkona', 'Poista summarivit', 'Täytä alaspäin', 'Käännä sarakkeet riveiksi', 'Tunnista tyypit']) {

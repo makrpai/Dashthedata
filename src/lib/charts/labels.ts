@@ -1,5 +1,6 @@
 import type { TDynamic } from '@/lib/i18n';
-import type { ChartSpec, ColumnProfile, Dataset } from '@/types/domain';
+import type { ChartSpec, ColumnProfile, Dataset, Locale, TimeGrain } from '@/types/domain';
+import { formatDate, formatNumber } from './format';
 import { BLANK, OTHER } from './queryBuilder';
 import { columnOf } from './spec';
 
@@ -65,4 +66,40 @@ export function entityColorIndex(value: string, column: ColumnProfile | undefine
   let h = 0;
   for (let k = 0; k < value.length; k++) h = (h * 31 + value.charCodeAt(k)) >>> 0;
   return h % paletteSize;
+}
+
+/**
+ * Resolves stored reason params at render time so they follow the UI language:
+ * col:<id> → column name, date:<grain>:<iso> → formatted period, num:col:<id>:<n> → number in the
+ * column's format, cat:<value> → category label.
+ */
+export function resolveReasonParams(
+  params: Record<string, string | number>,
+  dataset: Pick<Dataset, 'columns' | 'name'> | undefined,
+  locale: Locale,
+  t: TDynamic,
+): Record<string, string | number> {
+  const out: Record<string, string | number> = {};
+  for (const [k, v] of Object.entries(params)) {
+    if (typeof v !== 'string') {
+      out[k] = v;
+      continue;
+    }
+    if (v.startsWith('num:col:')) {
+      const rest = v.slice(8);
+      const i = rest.lastIndexOf(':');
+      const c = dataset ? columnOf(dataset, rest.slice(0, i)) : undefined;
+      out[k] = formatNumber(Number(rest.slice(i + 1)), locale, { format: c?.format, compact: Math.abs(Number(rest.slice(i + 1))) >= 10000 });
+    } else if (v.startsWith('date:')) {
+      const [, grain, iso] = v.split(':');
+      out[k] = formatDate(iso, locale, grain as TimeGrain);
+    } else if (v.startsWith('cat:')) {
+      out[k] = categoryLabel(v.slice(4), t);
+    } else if (v.startsWith('col:') && dataset) {
+      out[k] = resolveParam(v, dataset);
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
 }

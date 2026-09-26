@@ -162,3 +162,14 @@ seven hues cannot pass the all-pairs check.
   with a date-range filter the range is compared with an equally long period right before it.
 - Auto titles store column references (`col:<id>`) and are resolved at render time, so renaming a
   column updates titles and the UI language switches them instantly.
+
+## 2026-09-26 – Suggestion diversity with few measures
+**Context:** 12.4 allows at most 3 suggestions per measure. The main sample report has one measure
+(Myynti), so the rule would leave only three charts, contradicting the phase 5 acceptance (trend,
+comparisons by region and product group, the June anomaly).
+**Decision:** With one or two measures the per-measure cap becomes ⌈8 / measures⌉; from three
+measures up it is 3 as planned. Anomalies use leave-one-out z-scores (the point against the mean and
+deviation of the other points), because with 12 monthly points an ordinary |z| can never exceed 3.18.
+Trend lines split by a category count separately from the overall trend in the "< 2 per type" rule.
+Spikes are measured on residuals around the linear trend, so a steady rise is not reported as an
+anomaly.

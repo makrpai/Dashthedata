@@ -39,8 +39,8 @@ Checklist of the phases in the implementation plan (section 23). Tick items as t
 - [x] EChart wrapper, ChartTile, ChartEditor, table view
 
 ## Phase 5 – Suggestions and automatic dashboard
-- [ ] Suggestion engine, reasons, autoLayout, suggestion panel, "Why this?"
-- [ ] Dashboard created automatically after first import
+- [x] Suggestion engine, reasons, autoLayout, suggestion panel, "Why this?"
+- [x] Dashboard created automatically after first import
 
 ## Phase 6 – Dashboard interaction and persistence
 - [ ] react-grid-layout, tile menu, FilterBar, cross-filtering, keyboard moves

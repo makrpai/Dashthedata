@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Plus } from 'lucide-react';
+import { ChevronsLeft, Plus, Wand2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ChartEditor } from '@/components/charts/ChartEditor';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,9 @@ import { useProjectStore } from '@/store';
 import { useUiStore } from '@/store/ui';
 import type { ChartSpec } from '@/types/domain';
 import { ChartTile } from './ChartTile';
+import { SuggestionPanel } from './SuggestionPanel';
+import { toast } from '@/components/ui/sonner';
+import { createAutoDashboard } from '@/lib/workspace/suggestions';
 import { useTileActions } from './useTileActions';
 
 const ROW_HEIGHT = 80;
@@ -27,6 +30,8 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
   const datasets = useProjectStore((s) => s.project?.datasets ?? EMPTY);
   const setBreadcrumb = useUiStore((s) => s.setBreadcrumbExtra);
   const [editing, setEditing] = useState<ChartSpec | null>(null);
+  const [panelOpen, setPanelOpen] = useState(true);
+  const [autoBusy, setAutoBusy] = useState(false);
   const visibleDatasets = useMemo(() => datasets.filter((d) => d.columns.length > 0), [datasets]);
   const onAction = useTileActions(dashboardId, setEditing);
 
@@ -56,48 +61,102 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
       <ViewHeader
         title={dashboard.name}
         actions={
-          <Button variant="primary" onClick={() => setEditing(newChart())} disabled={!visibleDatasets.length}>
-            <Plus aria-hidden />
-            {t('chart.newChart')}
-          </Button>
+          <>
+            <Button
+              variant="soft"
+              disabled={!visibleDatasets.length || autoBusy}
+              onClick={async () => {
+                setAutoBusy(true);
+                try {
+                  if (dashboard.tiles.length) {
+                    useProjectStore.getState().updateDashboard(dashboardId, { tiles: [] });
+                  }
+                  await createAutoDashboard(dashboard.name);
+                  toast.success(t('suggestions.autoDashboardDone'));
+                } finally {
+                  setAutoBusy(false);
+                }
+              }}
+            >
+              <Wand2 aria-hidden />
+              {t('suggestions.autoDashboard')}
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => setEditing(newChart())}
+              disabled={!visibleDatasets.length}
+            >
+              <Plus aria-hidden />
+              {t('chart.newChart')}
+            </Button>
+            {!panelOpen && visibleDatasets.length > 0 && (
+              <Button
+                variant="soft"
+                size="icon"
+                aria-label={t('suggestions.expand')}
+                onClick={() => setPanelOpen(true)}
+              >
+                <ChevronsLeft aria-hidden />
+              </Button>
+            )}
+          </>
         }
       />
-      {sorted.length === 0 ? (
-        <Card>
-          <EmptyState
-            text={visibleDatasets.length ? t('views.dashboards.empty') : t('views.dashboards.noProject')}
-            action={
-              visibleDatasets.length ? undefined : (
-                <Button asChild variant="primary">
-                  <Link href="/workspace/data">{t('views.goToData')}</Link>
-                </Button>
-              )
-            }
-          />
-        </Card>
-      ) : (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-12" style={{ gridAutoRows: `${ROW_HEIGHT}px` }}>
-          {sorted.map((tile) => {
-            const chart = charts.find((c) => c.id === tile.chartId);
-            if (!chart) return null;
-            const dataset = datasets.find((d) => d.id === chart.datasetId);
-            return (
-              <div
-                key={tile.id}
-                className="min-w-0"
-                style={{ gridColumn: `${tile.layout.x + 1} / span ${tile.layout.w}`, gridRow: `${tile.layout.y + 1} / span ${tile.layout.h}` }}
-              >
-                <ChartTile
-                  chart={chart}
-                  dataset={dataset}
-                  filters={[]}
-                  onAction={(action, ctx) => void onAction(tile, chart, action, ctx, [])}
-                />
-              </div>
-            );
-          })}
+      <div
+        className={panelOpen && visibleDatasets.length ? 'grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]' : ''}
+      >
+        <div className="min-w-0">
+          {sorted.length === 0 ? (
+            <Card>
+              <EmptyState
+                text={visibleDatasets.length ? t('views.dashboards.empty') : t('views.dashboards.noProject')}
+                action={
+                  visibleDatasets.length ? undefined : (
+                    <Button asChild variant="primary">
+                      <Link href="/workspace/data">{t('views.goToData')}</Link>
+                    </Button>
+                  )
+                }
+              />
+            </Card>
+          ) : (
+            <div
+              className="grid grid-cols-1 gap-5 md:grid-cols-12"
+              style={{ gridAutoRows: `${ROW_HEIGHT}px` }}
+            >
+              {sorted.map((tile) => {
+                const chart = charts.find((c) => c.id === tile.chartId);
+                if (!chart) return null;
+                const dataset = datasets.find((d) => d.id === chart.datasetId);
+                return (
+                  <div
+                    key={tile.id}
+                    className="min-w-0"
+                    style={{
+                      gridColumn: `${tile.layout.x + 1} / span ${tile.layout.w}`,
+                      gridRow: `${tile.layout.y + 1} / span ${tile.layout.h}`,
+                    }}
+                  >
+                    <ChartTile
+                      chart={chart}
+                      dataset={dataset}
+                      filters={[]}
+                      onAction={(action, ctx) => void onAction(tile, chart, action, ctx, [])}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-      )}
+        {panelOpen && visibleDatasets.length > 0 && (
+          <div className="hidden xl:block">
+            <div className="sticky top-4">
+              <SuggestionPanel dashboardId={dashboardId} onCollapse={() => setPanelOpen(false)} />
+            </div>
+          </div>
+        )}
+      </div>
       {editing && (
         <ChartEditor
           open

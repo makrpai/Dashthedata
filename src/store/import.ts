@@ -11,6 +11,8 @@ interface ImportState {
   /** Non-Excel files prepared in the same drop, imported together with the picked sheets. */
   others: PreparedFile[];
   busy: boolean;
+  /** Open the clean-up view after the first import (samples, landing page). */
+  openCleanup: boolean;
   progress: string | null;
   lastImported: string[];
   queue: (files: File[]) => void;
@@ -23,6 +25,7 @@ export const useImportStore = create<ImportState>((set, get) => ({
   picking: null,
   others: [],
   busy: false,
+  openCleanup: false,
   progress: null,
   lastImported: [],
   queue: (files) => set({ queued: [...get().queued, ...files] }),

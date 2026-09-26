@@ -6,6 +6,8 @@ import { toast } from '@/components/ui/sonner';
 import { formatBytes } from '@/lib/ingest';
 import { useT } from '@/lib/i18n/useT';
 import { fetchSample, importPrepared, prepareFiles, type ImportIssue, type PreparedFile } from '@/lib/workspace/importer';
+import { createAutoDashboard } from '@/lib/workspace/suggestions';
+import { useProjectStore } from '@/store';
 import { useImportStore } from '@/store/import';
 
 /** Import flow shared by the drop zone, file picker, samples and the landing page. */
@@ -28,6 +30,7 @@ export function useImport() {
 
   const finish = useCallback(
     async (prepared: PreparedFile[], sheetChoice: Record<string, string[]>) => {
+      const openCleanup = useImportStore.getState().openCleanup;
       const store = useImportStore.getState();
       store.set({ busy: true, picking: null, others: [] });
       try {
@@ -41,6 +44,12 @@ export function useImport() {
           });
         }
         store.set({ lastImported: datasetIds });
+        // First import: build the dashboard right away (12.6) and show what was cleaned (2.1).
+        const hasTiles = useProjectStore.getState().project?.dashboards.some((d) => d.tiles.length > 0);
+        if (datasetIds.length && !hasTiles) {
+          await createAutoDashboard(t('views.dashboards.title')).catch(() => null);
+          if (openCleanup) router.push(`/workspace/transform/${datasetIds[0]}`);
+        }
         return datasetIds;
       } catch (err) {
         toast.error(t('sources.engine.error'), { description: err instanceof Error ? err.message : undefined });
@@ -49,13 +58,14 @@ export function useImport() {
         useImportStore.getState().set({ busy: false, progress: null });
       }
     },
-    [report, t],
+    [report, router, t],
   );
 
   const importFiles = useCallback(
-    async (files: File[]) => {
+    async (files: File[], opts: { openCleanup?: boolean } = {}) => {
       if (!files.length) return;
       const store = useImportStore.getState();
+      store.set({ openCleanup: Boolean(opts.openCleanup) });
       store.set({ busy: true, progress: t('sources.importing', { name: files.map((f) => f.name).join(', ') }) });
       const { prepared, issues } = await prepareFiles(files);
       report(issues);
@@ -73,7 +83,7 @@ export function useImport() {
     async (names: string[]) => {
       useImportStore.getState().set({ busy: true });
       const files = await Promise.all(names.map(fetchSample));
-      await importFiles(files);
+      await importFiles(files, { openCleanup: true });
     },
     [importFiles],
   );

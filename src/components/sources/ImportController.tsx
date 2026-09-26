@@ -12,7 +12,7 @@ export function ImportController() {
   useEffect(() => {
     if (queued === 0) return;
     const files = useImportStore.getState().takeQueued();
-    void importFiles(files);
+    void importFiles(files, { openCleanup: true });
   }, [queued, importFiles]);
   return <SheetPicker />;
 }

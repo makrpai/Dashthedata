@@ -34,14 +34,14 @@ export function KpiView({ row, spark, label, format }: { row?: Row; spark?: Row[
   );
   const Arrow = change === null ? Minus : change > 0 ? ArrowUpRight : change < 0 ? ArrowDownRight : Minus;
   return (
-    <div className="flex h-full flex-col justify-between gap-1">
+    <div className="flex h-full min-h-0 flex-col gap-1 overflow-hidden">
       <div>
-        <p className="tabular text-[27px] leading-tight font-bold" data-numeric>
+        <p className="tabular text-[27px] leading-none font-bold" data-numeric>
           {value === null ? '–' : formatNumber(value, t.locale, { format, compact: Math.abs(value) >= 100000 })}
         </p>
         <p className="text-[13px] text-fg-2">{label}</p>
         {change !== null ? (
-          <p className={`mt-1 flex items-center gap-1 text-[13px] font-semibold ${change > 0 ? 'text-success' : 'text-fg-2'}`}>
+          <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 text-[12px] font-semibold ${change > 0 ? 'text-success' : 'text-fg-2'}`}>
             <Arrow className="size-4" aria-hidden />
             <span className="tabular">
               {change > 0 ? '+' : ''}
@@ -52,7 +52,7 @@ export function KpiView({ row, spark, label, format }: { row?: Row; spark?: Row[
         ) : null}
       </div>
       {sparkOption && (
-        <div className="h-10 min-h-10" aria-hidden>
+        <div className="min-h-6 flex-1" aria-hidden>
           <EChart option={sparkOption} ariaLabel="" />
         </div>
       )}

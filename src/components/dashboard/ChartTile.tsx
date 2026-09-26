@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
-import { chartTitle } from '@/lib/charts/labels';
+import { chartTitle, resolveReasonParams } from '@/lib/charts/labels';
 import { useT } from '@/lib/i18n/useT';
 import { cn } from '@/lib/util/cn';
 import type { ChartSpec, Dataset, FilterClause } from '@/types/domain';
@@ -66,7 +66,7 @@ export function ChartTile({
   const [asTable, setAsTable] = useState(false);
   const instance = useRef<ECharts | null>(null);
   const title = chartTitle(chart, dataset, t.dynamic);
-  const reason = chart.aiReason ?? (chart.reason ? t.dynamic(chart.reason.key, chart.reason.params) : null);
+  const reason = chart.aiReason ?? (chart.reason ? t.dynamic(chart.reason.key, resolveReasonParams(chart.reason.params, dataset, t.locale, t.dynamic)) : null);
   const act = (a: TileAction) => {
     if (a === 'toggleTable') setAsTable((v) => !v);
     onAction(a, { instance: instance.current, asTable });

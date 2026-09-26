@@ -19,6 +19,7 @@ test.describe('file import (phase 1)', () => {
     await expect(dialog.getByRole('checkbox')).toHaveCount(2);
     await dialog.getByRole('button', { name: 'Tuo valitut' }).click();
     await expect(page.getByText('Lisättiin 2 datasettiä')).toBeVisible({ timeout: 60_000 });
+    await page.getByRole('navigation', { name: 'Päävalikko' }).getByRole('link', { name: /^Data/ }).click();
     const grid = page.getByRole('grid');
     await expect(grid.getByRole('gridcell', { name: 'Tuoteryhmä', exact: true })).toBeVisible();
     await expect(grid.getByRole('gridcell', { name: 'Jyväskylä' }).first()).toBeAttached();

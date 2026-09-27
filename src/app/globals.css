@@ -209,3 +209,29 @@ html[data-sidebar='collapsed'] .dtd-sidebar [data-nav-item] .dtd-dot {
 .dtd-tile-drag:active {
   cursor: grabbing;
 }
+@keyframes dtd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.dtd-logo-in svg rect {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: dtd-rise 700ms ease both;
+}
+.dtd-logo-in svg rect:nth-of-type(2) {
+  animation-delay: 80ms;
+}
+.dtd-logo-in svg rect:nth-of-type(3) {
+  animation-delay: 160ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dtd-logo-in svg rect {
+    animation: none;
+  }
+}

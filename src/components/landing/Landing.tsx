@@ -23,7 +23,7 @@ export function Landing() {
   return (
     <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 md:px-8">
       <header className="flex items-center justify-between gap-3 py-5">
-        <Logo size={30} />
+          <Logo size={30} className="dtd-logo-in" />
         <div className="flex items-center gap-2">
           <LanguageSwitch />
           <ThemeSwitch />

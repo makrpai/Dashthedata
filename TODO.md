@@ -43,26 +43,26 @@ Checklist of the phases in the implementation plan (section 23). Tick items as t
 - [x] Dashboard created automatically after first import
 
 ## Phase 6 – Dashboard interaction and persistence
-- [ ] react-grid-layout, tile menu, FilterBar, cross-filtering, keyboard moves
-- [ ] IndexedDB persistence, project list, project file export/import, remembered files
-- [ ] Exports: PNG, PDF, CSV, Parquet
+- [x] react-grid-layout, tile menu, FilterBar, cross-filtering, keyboard moves
+- [x] IndexedDB persistence, project list, project file export/import, remembered files
+- [x] Exports: PNG, PDF, CSV, Parquet
 
 ## Phase 7 – Multiple sources and model
-- [ ] Union suggestion + dataset, relationship detection, model view, join dataset
+- [x] Union suggestion + dataset, relationship detection, model view, join dataset
 
 ## Phase 8 – Connectors
-- [ ] `ssrf.ts`, `sqlGuard.ts`, PostgreSQL, MySQL, HTTP, demo DB and demo API endpoints
-- [ ] Integrations view, connect dialogs, Google Sheets detection, refresh data
-- [ ] `docker-compose.yml` for local databases
+- [x] `ssrf.ts`, `sqlGuard.ts`, PostgreSQL, MySQL, HTTP, demo DB and demo API endpoints
+- [x] Integrations view, connect dialogs, Google Sheets detection, refresh data
+- [x] `docker-compose.yml` for local databases
 
 ## Phase 9a – AI: provider interface and Claude
-- [ ] `LlmProvider`, shared tasks, `anthropic.ts`, `ratelimit.ts`, endpoints
-- [ ] AI view, ConsentDialog, PrivacyPanel, AskBox, InsightPanel, BYOK
+- [x] `LlmProvider`, shared tasks, `anthropic.ts`, `ratelimit.ts`, endpoints
+- [x] AI view, ConsentDialog, PrivacyPanel, AskBox, InsightPanel, BYOK
 
 ## Phase 9b – AI: local models
-- [ ] `localServer.ts`, `browserLlm.ts`, small-model tasks, CSP
+- [x] `localServer.ts`, `browserLlm.ts`, small-model tasks, CSP
 
 ## Phase 10 – Polish and release
-- [ ] Landing page final, logo animation, privacy page
-- [ ] Accessibility, performance numbers, error/empty states
-- [ ] README.md + README.fi.md, ARCHITECTURE.md, screenshots, GIF
+- [x] Landing page final, logo animation, privacy page
+- [x] Accessibility, performance numbers, error/empty states
+- [x] README.md + README.fi.md, ARCHITECTURE.md, screenshots, GIF

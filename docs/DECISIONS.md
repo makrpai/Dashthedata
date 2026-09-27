@@ -163,6 +163,15 @@ seven hues cannot pass the all-pairs check.
 - Auto titles store column references (`col:<id>`) and are resolved at render time, so renaming a
   column updates titles and the UI language switches them instantly.
 
+## 2026-09-27 – Relationship score
+**Context:** Plan section 10.2 names overlap, uniqueness of the "one" side and name similarity, without a numeric mix.
+**Decision:** `score = 0.5 * overlap + 0.3 * uniquenessTo + 0.2 * nameSimilarity`. A suggestion needs overlap ≥ 0.5, uniquenessTo ≥ 0.9 and score ≥ 0.72. Unions are suggested when at least two column names match and the Jaccard overlap is ≥ 0.5.
+**Consequences:** `asiakas_id` → `id` is suggested from value overlap even when the names differ.
+
+## 2026-09-27 – windows-1252 C1 bytes
+**Context:** Some JavaScript runtimes decode windows-1252 bytes 0x80–0x9F as C1 controls, so the euro sign in Finnish Excel CSVs becomes U+0080.
+**Decision:** After `TextDecoder('windows-1252')`, bytes that remain in U+0080–U+009F are mapped to the WHATWG windows-1252 characters.
+
 ## 2026-09-26 – Suggestion diversity with few measures
 **Context:** 12.4 allows at most 3 suggestions per measure. The main sample report has one measure
 (Myynti), so the rule would leave only three charts, contradicting the phase 5 acceptance (trend,

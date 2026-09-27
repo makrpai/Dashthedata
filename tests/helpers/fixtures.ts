@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { isAbsolute, join } from 'node:path';
 import * as XLSX from 'xlsx';
 import { processDataset } from '@/lib/etl/processDataset';
 import { ingestDelimitedBytes, ingestJsonText } from '@/lib/ingest';
@@ -19,7 +19,7 @@ export async function processFixture(
 ) {
   const id = `t${++counter}`;
   const rawTable = `raw_${id}`;
-  const bytes = new Uint8Array(readFileSync(file.startsWith('/') ? file : join(dir, file)));
+  const bytes = new Uint8Array(readFileSync(isAbsolute(file) ? file : join(dir, file)));
   const format = file.endsWith('.xlsx') ? 'xlsx' : file.endsWith('.json') ? 'json' : 'csv';
   let merged: number[] = [];
   let rowCount = 0;

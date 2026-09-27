@@ -2,6 +2,7 @@
 
 import { getRunner, type BrowserRunner } from '@/lib/duckdb/client';
 import { processDataset } from '@/lib/etl/processDataset';
+import { ensureModelView } from '@/lib/model/apply';
 import { detectLocale, isLocale, type Locale } from '@/lib/i18n';
 import { useProjectStore } from '@/store';
 import { usePipelineStore } from '@/store/pipeline';
@@ -52,12 +53,22 @@ export async function runDataset(datasetId: string, opts: { autoDetect?: boolean
   store.setBusy(datasetId, true);
   try {
     const runner = await ensureEngine();
-    const firstTime = Boolean(opts.autoDetect && !dataset.autoDetected);
+    if (dataset.kind !== 'source') {
+      const project = useProjectStore.getState().project;
+      if (!project || !(await ensureModelView(runner, dataset, project))) return 0;
+    }
+    const autoDetect = Boolean(opts.autoDetect && dataset.kind === 'source');
+    const firstTime = Boolean(autoDetect && !dataset.autoDetected);
     const { dataset: updated, run } = await processDataset(runner, dataset, dataset.kind === 'source' ? source : undefined, {
       locale: uiLocale(),
       dataLocale: dataLocale(),
-      autoDetect: opts.autoDetect,
+      autoDetect,
       materialize: (source?.rowCount ?? dataset.rowCount) > 200_000,
+    });
+    const previous = new Map(dataset.columns.map((c) => [c.sqlName, c]));
+    updated.columns = updated.columns.map((c) => {
+      const prev = previous.get(c.sqlName);
+      return prev ? { ...c, originDatasetId: prev.originDatasetId, originColumnId: prev.originColumnId } : c;
     });
     // The user may have edited the pipeline meanwhile; keep the latest params but take effects/errors.
     useProjectStore.getState().updateDataset(datasetId, () => updated);

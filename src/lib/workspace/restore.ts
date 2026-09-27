@@ -5,6 +5,7 @@ import { getBlob } from '@/lib/persistence/idb';
 import { useProjectStore } from '@/store';
 import { usePipelineStore } from '@/store/pipeline';
 import type { Dataset, Project, Source } from '@/types/domain';
+import { ensureModelView } from '@/lib/model/apply';
 import { ensureEngine, runDataset } from './engine';
 import { loadRaw } from './importer';
 
@@ -42,7 +43,9 @@ export async function reloadFileSource(source: Source, bytes: ArrayBuffer, file?
 }
 
 /** Recreates union/join input views (phase 7 hooks this for model datasets). */
-export const viewBuilders: Array<(dataset: Dataset, project: Project) => Promise<boolean>> = [];
+export const viewBuilders: Array<(dataset: Dataset, project: Project) => Promise<boolean>> = [
+  async (dataset, project) => ensureModelView(await ensureEngine(), dataset, project),
+];
 
 /**
  * Restores a project's data after a reload: remembered files are loaded from IndexedDB, then every

@@ -1,5 +1,5 @@
-import { PlaceholderView } from '@/components/views/PlaceholderView';
+import { ModelView } from '@/components/model/ModelView';
 
 export default function Page() {
-  return <PlaceholderView title="views.model.title" text="views.model.empty" />;
+  return <ModelView />;
 }

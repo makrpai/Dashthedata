@@ -2,12 +2,16 @@
 
 import Link from 'next/link';
 import { ChevronsLeft, Plus, Wand2 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ConsentDialog } from '@/components/ai/ConsentDialog';
 import { ChartEditor } from '@/components/charts/ChartEditor';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ViewHeader } from '@/components/views/ViewHeader';
+import { chartTitle } from '@/lib/charts/labels';
+import { parseAiJson, summarizeDatasets } from '@/lib/ai/tasks';
+import { runAsk } from '@/lib/ai/runAsk';
 import { useT } from '@/lib/i18n/useT';
 import { EMPTY } from '@/lib/util/empty';
 import { newId } from '@/lib/util/id';
@@ -21,6 +25,7 @@ import { SuggestionPanel } from './SuggestionPanel';
 import { toast } from '@/components/ui/sonner';
 import { createAutoDashboard } from '@/lib/workspace/suggestions';
 import { useTileActions } from './useTileActions';
+import { DashboardExportMenu } from './DashboardExportMenu';
 
 export function DashboardView({ dashboardId }: { dashboardId: string }) {
   const t = useT();
@@ -31,8 +36,34 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
   const [editing, setEditing] = useState<ChartSpec | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
   const [autoBusy, setAutoBusy] = useState(false);
+  const [insight, setInsight] = useState<string | null>(null);
+  const [consentOpen, setConsentOpen] = useState(false);
+  const pendingExplain = useRef<string | null>(null);
   const visibleDatasets = useMemo(() => datasets.filter((d) => d.columns.length > 0), [datasets]);
-  const onAction = useTileActions(dashboardId, setEditing);
+  const explainTile = async (tileId: string) => {
+    const project = useProjectStore.getState().project;
+    if (!project) return;
+    if (!project.settings.ai.consentGiven) {
+      pendingExplain.current = tileId;
+      setConsentOpen(true);
+      return;
+    }
+    const tile = project.dashboards.find((d) => d.id === dashboardId)?.tiles.find((item) => item.id === tileId);
+    const chart = project.charts.find((item) => item.id === tile?.chartId);
+    const dataset = project.datasets.find((item) => item.id === chart?.datasetId);
+    if (!chart) return;
+    setInsight(t('askPanel.working'));
+    try {
+      const raw = await runAsk(
+        summarizeDatasets(project.datasets, project.settings.ai.includeCategoryValues),
+        `Explain this chart briefly: ${chartTitle(chart, dataset, t.dynamic)} (${chart.type}).`,
+      );
+      setInsight(parseAiJson(raw).text);
+    } catch (err) {
+      setInsight(err instanceof Error ? err.message : t('errors.generic'));
+    }
+  };
+  const onAction = useTileActions(dashboardId, setEditing, (tileId) => void explainTile(tileId));
 
   useEffect(() => {
     setBreadcrumb(dashboard?.name ?? null);
@@ -88,6 +119,7 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
               <Plus aria-hidden />
               {t('chart.newChart')}
             </Button>
+            {sorted.length > 0 && <DashboardExportMenu dashboard={dashboard} datasets={datasets} charts={charts} />}
             {!panelOpen && visibleDatasets.length > 0 && (
               <Button
                 variant="soft"
@@ -119,16 +151,22 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
               />
             </Card>
           ) : (
-            <>
+            <div data-dashboard-canvas={dashboard.id}>
               <FilterBar dashboard={dashboard} />
               <DashboardGrid
                 dashboard={dashboard}
                 charts={charts}
                 datasets={datasets}
-                aiEnabled={false}
+                aiEnabled
                 onTileAction={(tile, chart, action, ctx, filters) => void onAction(tile, chart, action, ctx, filters)}
               />
-            </>
+              {insight && (
+                <Card className="mt-4 p-4" aria-label={t('askPanel.answer')}>
+                  <h2 className="mb-1 text-[14px] font-semibold">{t('chart.tile.explain')}</h2>
+                  <p className="text-[14px] text-fg-2">{insight}</p>
+                </Card>
+              )}
+            </div>
           )}
         </div>
         {panelOpen && visibleDatasets.length > 0 && (
@@ -153,6 +191,15 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
           }}
         />
       )}
+      <ConsentDialog
+        open={consentOpen}
+        onClose={() => {
+          setConsentOpen(false);
+          const tileId = pendingExplain.current;
+          pendingExplain.current = null;
+          if (tileId && useProjectStore.getState().project?.settings.ai.consentGiven) void explainTile(tileId);
+        }}
+      />
     </>
   );
 }

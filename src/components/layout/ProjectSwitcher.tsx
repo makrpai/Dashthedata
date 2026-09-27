@@ -18,7 +18,7 @@ import { useProjectActions } from './useProjectActions';
 export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
   const t = useT();
   const project = useProjectStore((s) => s.project);
-  const { projects, openProject, newProject, importProject } = useProjectActions();
+  const { projects, openProject, newProject, importProject, renameProject, duplicateProject, deleteProject } = useProjectActions();
   const name = project?.name ?? t('project.untitled');
   return (
     <DropdownMenu>
@@ -53,6 +53,16 @@ export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
           <FolderInput aria-hidden />
           {t('project.importProject')}
         </DropdownMenuItem>
+        {project && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={() => void renameProject()}>{t('common.rename')}</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => void duplicateProject(project.id)}>{t('common.duplicate')}</DropdownMenuItem>
+            <DropdownMenuItem destructive onSelect={() => void deleteProject(project.id, project.name)}>
+              {t('common.delete')}
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

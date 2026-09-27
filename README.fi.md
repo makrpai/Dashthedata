@@ -6,7 +6,12 @@
 pudota sotkuinen Excel, CSV, tietokanta tai rajapinta, niin saat siivotun datan, selityksen siitä
 mitä siivottiin ja valmiin dashboardin, jonka jokaiselle kaaviolle on perustelu. [In English](README.md)
 
-> Työ on kesken. Toteutusvaiheet: [TODO.md](TODO.md).
+Suunnitelman vaiheet 0–10 ovat puussa: tuonti ja siivous, kaaviot, raahattava dashboard, unionit ja
+liitokset, tietokanta- ja HTTP-lähteet sekä valinnainen Claude tai paikallinen malli.
+Katso [TODO.md](TODO.md) ja [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+Paikalliset tietokannat: `docker compose up`. Yhdistäminen niihin vaatii `.env.local`-tiedostoon
+`CONNECTORS_ALLOW_PRIVATE=true`.
 
 ## Paikallinen kehitys
 

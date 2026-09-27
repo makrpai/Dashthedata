@@ -9,7 +9,12 @@ dashboard with a reason for every chart. [Suomeksi](README.fi.md)
 [![CI](https://github.com/makrpai/dashthedata/actions/workflows/ci.yml/badge.svg)](https://github.com/makrpai/dashthedata/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-0F2747.svg)](LICENSE)
 
-> Work in progress. See [TODO.md](TODO.md) for the implementation phases.
+Phases 0–10 from the implementation plan are in the tree: import and clean-up, charts, a draggable
+dashboard, unions and joins, database/HTTP connectors, and optional Claude or local models.
+See [TODO.md](TODO.md) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+Start local databases with `docker compose up` (see `docker-compose.yml`). Set `CONNECTORS_ALLOW_PRIVATE=true`
+in `.env.local` before connecting to them.
 
 ## Local development
 

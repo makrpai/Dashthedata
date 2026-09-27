@@ -1,16 +1,24 @@
 'use client';
 
-import { X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { categoryLabel } from '@/lib/charts/labels';
 import { formatDate } from '@/lib/charts/format';
 import { useT } from '@/lib/i18n/useT';
-import { clearAllFilters, removeGlobalFilter, setCrossFilter, setGlobalFilterValue } from '@/lib/workspace/dashboardFilters';
+import { addGlobalFilter, clearAllFilters, removeGlobalFilter, setCrossFilter, setGlobalFilterValue } from '@/lib/workspace/dashboardFilters';
 import { useProjectStore } from '@/store';
 import type { Dashboard, Dataset, GlobalFilter } from '@/types/domain';
 
@@ -189,7 +197,35 @@ function NumberRangeFilter({ dashboardId, filter, column }: { dashboardId: strin
 export function FilterBar({ dashboard }: { dashboard: Dashboard }) {
   const t = useT();
   const datasets = useProjectStore((s) => s.project?.datasets ?? []);
+  const charts = useProjectStore((s) => s.project?.charts ?? []);
   const hasActive = dashboard.globalFilters.some((f) => f.value !== undefined) || Boolean(dashboard.crossFilter);
+  const usedDatasetIds = new Set(
+    dashboard.tiles
+      .map((tile) => charts.find((chart) => chart.id === tile.chartId)?.datasetId)
+      .filter((id): id is string => Boolean(id)),
+  );
+  const filterableColumns = datasets
+    .filter((d) => usedDatasetIds.has(d.id))
+    .flatMap((dataset) =>
+      dataset.columns
+        .map((column) => {
+          const kind: GlobalFilter['kind'] | null =
+            column.type === 'date' || column.type === 'datetime'
+              ? 'dateRange'
+              : column.type === 'integer' || column.type === 'decimal'
+                ? 'numberRange'
+                : column.stats.distinct >= 2 && column.stats.distinct <= 50
+                  ? 'multiSelect'
+                  : null;
+          if (!kind) return null;
+          const exists = dashboard.globalFilters.some(
+            (gf) => gf.columnRef.datasetId === dataset.id && gf.columnRef.columnId === column.id,
+          );
+          if (exists) return null;
+          return { dataset, column, kind };
+        })
+        .filter((item): item is { dataset: Dataset; column: Dataset['columns'][number]; kind: GlobalFilter['kind'] } => Boolean(item)),
+    );
 
   useEffect(() => {
     if (!dashboard.crossFilter) return;
@@ -200,7 +236,7 @@ export function FilterBar({ dashboard }: { dashboard: Dashboard }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [dashboard.id, dashboard.crossFilter]);
 
-  if (!dashboard.globalFilters.length && !dashboard.crossFilter) return null;
+  if (!dashboard.globalFilters.length && !dashboard.crossFilter && !filterableColumns.length) return null;
 
   return (
     <div className="mb-4 flex flex-wrap items-center gap-2" role="toolbar" aria-label={t('chart.editor.filters')}>
@@ -236,6 +272,33 @@ export function FilterBar({ dashboard }: { dashboard: Dashboard }) {
             <X className="size-3" aria-hidden />
           </button>
         </Badge>
+      )}
+      {filterableColumns.length > 0 && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="soft" size="sm">
+              <Plus aria-hidden />
+              {t('filterBar.addFilter')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-72">
+            <DropdownMenuLabel>{t('filterBar.addFilter')}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {filterableColumns.map(({ dataset, column, kind }) => (
+              <DropdownMenuItem
+                key={`${dataset.id}:${column.id}`}
+                onSelect={() =>
+                  addGlobalFilter(dashboard.id, {
+                    columnRef: { datasetId: dataset.id, columnId: column.id },
+                    kind,
+                  })
+                }
+              >
+                {usedDatasetIds.size > 1 ? `${dataset.name} / ${column.displayName}` : column.displayName}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
       {hasActive && (
         <Button variant="ghost" size="sm" onClick={() => clearAllFilters(dashboard.id)}>

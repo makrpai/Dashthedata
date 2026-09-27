@@ -17,8 +17,27 @@ export function decodeText(bytes: Uint8Array): { text: string; encoding: TextEnc
   try {
     return { text: new TextDecoder('utf-8', { fatal: true }).decode(bytes), encoding: 'utf-8' };
   } catch {
-    return { text: new TextDecoder('windows-1252').decode(bytes), encoding: 'windows-1252' };
+    return { text: decodeWindows1252(bytes), encoding: 'windows-1252' };
   }
+}
+
+/**
+ * WHATWG windows-1252. Some runtimes leave bytes 0x80–0x9F as C1 controls instead of the
+ * printable characters (euro, quotes, dashes), so those are mapped explicitly.
+ */
+function decodeWindows1252(bytes: Uint8Array): string {
+  const c1: Record<number, string> = {
+    0x80: '\u20ac', 0x82: '\u201a', 0x83: '\u0192', 0x84: '\u201e', 0x85: '\u2026', 0x86: '\u2020', 0x87: '\u2021',
+    0x88: '\u02c6', 0x89: '\u2030', 0x8a: '\u0160', 0x8b: '\u2039', 0x8c: '\u0152', 0x8e: '\u017d', 0x91: '\u2018',
+    0x92: '\u2019', 0x93: '\u201c', 0x94: '\u201d', 0x95: '\u2022', 0x96: '\u2013', 0x97: '\u2014', 0x98: '\u02dc',
+    0x99: '\u2122', 0x9a: '\u0161', 0x9b: '\u203a', 0x9c: '\u0153', 0x9e: '\u017e', 0x9f: '\u0178',
+  };
+  let text = '';
+  for (const ch of new TextDecoder('windows-1252').decode(bytes)) {
+    const code = ch.charCodeAt(0);
+    text += code >= 0x80 && code <= 0x9f ? (c1[code] ?? ch) : ch;
+  }
+  return text;
 }
 
 /** True when the bytes are valid UTF-8 (used to decide whether a large file can be streamed). */

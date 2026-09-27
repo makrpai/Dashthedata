@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Eye, FileSpreadsheet, FileJson, FileText, Database, Globe, Loader2, Sparkles, Trash2 } from 'lucide-react';
+import { Eye, FileSpreadsheet, FileJson, FileText, Database, Globe, Loader2, RefreshCw, Sparkles, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { Tooltip } from '@/components/ui/tooltip';
 import { formatBytes } from '@/lib/ingest';
 import { useT } from '@/lib/i18n/useT';
 import { cn } from '@/lib/util/cn';
+import { refreshSource } from '@/lib/workspace/remoteImport';
 import { removeSourceAndTables } from '@/lib/workspace/sources';
 import { useProjectStore } from '@/store';
 import type { Source } from '@/types/domain';
@@ -35,7 +36,25 @@ export function SourceList({ selectedId, onSelect }: { selectedId: string | null
   const datasets = useProjectStore((s) => s.project?.datasets ?? EMPTY);
   const busy = useProjectStore((s) => s.busyDatasets);
   const [removing, setRemoving] = useState<Source | null>(null);
+  const [refreshing, setRefreshing] = useState<string | null>(null);
   const time = new Intl.DateTimeFormat(t.locale, { dateStyle: 'short', timeStyle: 'short' });
+  const refresh = async (source: Source) => {
+    let password: string | undefined;
+    if (source.db) {
+      const typed = window.prompt(t('integrations.passwordPrompt'));
+      if (!typed) return;
+      password = typed;
+    }
+    setRefreshing(source.id);
+    try {
+      await refreshSource(source.id, password);
+      toast.success(t('sources.list.refreshed'));
+    } catch (err) {
+      toast.error(err instanceof Error && err.message !== 'password' ? err.message : t('sources.list.refreshFailed'));
+    } finally {
+      setRefreshing(null);
+    }
+  };
 
   return (
     <>
@@ -104,6 +123,12 @@ export function SourceList({ selectedId, onSelect }: { selectedId: string | null
                             <Sparkles aria-hidden />
                             {t('sources.list.openCleanup')}
                           </Link>
+                        </Button>
+                      )}
+                      {(source.http || source.db) && (
+                        <Button size="sm" variant="ghost" disabled={refreshing === source.id} onClick={() => void refresh(source)}>
+                          <RefreshCw aria-hidden />
+                          {t('sources.list.refresh')}
                         </Button>
                       )}
                     </>

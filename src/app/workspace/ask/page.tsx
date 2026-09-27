@@ -1,5 +1,5 @@
-import { PlaceholderView } from '@/components/views/PlaceholderView';
+import { AskView } from '@/components/ask/AskView';
 
 export default function Page() {
-  return <PlaceholderView title="views.ask.title" text="views.ask.empty" />;
+  return <AskView />;
 }

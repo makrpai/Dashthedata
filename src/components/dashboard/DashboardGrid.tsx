@@ -86,13 +86,13 @@ export function DashboardGrid({
   );
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} data-testid="dashboard-grid">
       {mounted && (
         <ReactGridLayout
           width={width}
           layout={layout}
           gridConfig={{ cols: GRID_COLS, rowHeight: ROW_HEIGHT, margin: MARGIN, containerPadding: [0, 0] }}
-          dragConfig={{ enabled: true, handle: '.dtd-tile-drag' }}
+          dragConfig={{ enabled: true, handle: '.dtd-tile-drag', cancel: 'button, a, input, textarea, select, [role="button"]' }}
           resizeConfig={{ enabled: true, handles: ['se'] }}
           onLayoutChange={onLayoutChange}
         >
@@ -102,7 +102,7 @@ export function DashboardGrid({
             const crossSourceIsSelf = dashboard.crossFilter?.sourceTileId === tile.id;
             const selected = crossSourceIsSelf ? String(dashboard.crossFilter?.clause.value ?? '') : null;
             return (
-              <div key={tile.id}>
+              <div key={tile.id} data-testid={`dashboard-tile-${tile.id}`} data-tile-id={tile.id}>
                 <ChartTile
                   chart={chart}
                   dataset={dataset}

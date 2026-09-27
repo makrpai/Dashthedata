@@ -3,8 +3,10 @@
 import { useEffect } from 'react';
 import { Sidebar, useSidebarCollapsed } from './Sidebar';
 import { TopBar } from './TopBar';
+import { MissingDataBanner } from './MissingDataBanner';
 import { useUiStore } from '@/store/ui';
 import { ImportController } from '@/components/sources/ImportController';
+import { openLastProject } from '@/lib/workspace/projects';
 
 function isTypingTarget(el: EventTarget | null): boolean {
   if (!(el instanceof HTMLElement)) return false;
@@ -15,6 +17,11 @@ function isTypingTarget(el: EventTarget | null): boolean {
 export function AppShell({ children }: { children: React.ReactNode }) {
   const collapsed = useSidebarCollapsed();
   const setCollapsed = useUiStore((s) => s.setSidebarCollapsed);
+
+  // Reopen the last project (and reload its remembered files) when the workspace opens.
+  useEffect(() => {
+    void openLastProject();
+  }, []);
 
   // `[` toggles the sidebar.
   useEffect(() => {
@@ -33,6 +40,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar />
+        <MissingDataBanner />
         <main id="main" className="min-w-0 flex-1 px-4 py-4 md:px-6 md:py-5">
           {children}
         </main>

@@ -16,6 +16,15 @@ export interface ProjectState {
   engine: EngineStatus;
   /** Dataset ids whose pipeline is running. */
   busyDatasets: string[];
+  /** Sources whose data is not loaded in this session (not remembered, or a database/API). */
+  missingSources: string[];
+  /** True while a saved project is being restored. */
+  restoring: boolean;
+  /** Saved projects (IndexedDB), newest first. */
+  projects: Array<{ id: string; name: string; updatedAt: string }>;
+  setProjects: (projects: ProjectState['projects']) => void;
+  setMissingSources: (ids: string[]) => void;
+  setRestoring: (restoring: boolean) => void;
   setProject: (project: Project | null) => void;
   setEngine: (status: EngineStatus) => void;
   setBusy: (datasetId: string, busy: boolean) => void;
@@ -47,6 +56,12 @@ export const useProjectStore = create<ProjectState>((set) => {
     connectionState: 'none',
     engine: 'idle',
     busyDatasets: [],
+    missingSources: [],
+    restoring: false,
+    projects: [],
+    setProjects: (projects) => set({ projects }),
+    setMissingSources: (missingSources) => set({ missingSources }),
+    setRestoring: (restoring) => set({ restoring }),
     setProject: (project) => set({ project }),
     setEngine: (engine) => set({ engine }),
     setBusy: (datasetId, busy) =>

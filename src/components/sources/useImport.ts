@@ -7,6 +7,7 @@ import { formatBytes } from '@/lib/ingest';
 import { useT } from '@/lib/i18n/useT';
 import { fetchSample, importPrepared, prepareFiles, type ImportIssue, type PreparedFile } from '@/lib/workspace/importer';
 import { createAutoDashboard } from '@/lib/workspace/suggestions';
+import { reconnectFiles } from '@/lib/workspace/restore';
 import { useProjectStore } from '@/store';
 import { useImportStore } from '@/store/import';
 
@@ -63,6 +64,9 @@ export function useImport() {
 
   const importFiles = useCallback(
     async (files: File[], opts: { openCleanup?: boolean } = {}) => {
+      if (!files.length) return;
+      // Files that belong to sources whose data is missing are reconnected, not imported again.
+      files = await reconnectFiles(files);
       if (!files.length) return;
       const store = useImportStore.getState();
       store.set({ openCleanup: Boolean(opts.openCleanup) });

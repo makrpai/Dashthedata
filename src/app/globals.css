@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import '../styles/brand.css';
 @import '../styles/tokens.css';
+@import 'react-grid-layout/css/styles.css';
+@import 'react-resizable/css/styles.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
@@ -173,4 +175,37 @@ html[data-sidebar='collapsed'] .dtd-sidebar [data-nav-item] .dtd-dot {
 .dtd-settle {
   animation: dtd-settle 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   animation-delay: var(--delay, 0ms);
+}
+
+/* Dashboard grid (react-grid-layout): brand-coloured placeholder, lighter shadow while dragging
+   (19.2 performance), and a neumorphic resize handle instead of the default corner mark. */
+.react-grid-item.react-grid-placeholder {
+  background: var(--accent);
+  border-radius: var(--radius-card);
+}
+.react-grid-item.react-draggable-dragging {
+  box-shadow: var(--nm-raised-sm);
+}
+.react-grid-item.react-draggable-dragging article,
+.react-grid-item.resizing article {
+  box-shadow: none;
+}
+.react-grid-item > .react-resizable-handle {
+  width: 22px;
+  height: 22px;
+}
+.react-grid-item > .react-resizable-handle::after {
+  right: 6px;
+  bottom: 6px;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid var(--slate);
+  border-bottom: 2px solid var(--slate);
+  border-radius: 1px;
+}
+.dtd-tile-drag {
+  cursor: grab;
+}
+.dtd-tile-drag:active {
+  cursor: grabbing;
 }

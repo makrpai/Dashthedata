@@ -15,13 +15,12 @@ import { addChartToDashboard } from '@/lib/workspace/dashboards';
 import { useProjectStore } from '@/store';
 import { useUiStore } from '@/store/ui';
 import type { ChartSpec } from '@/types/domain';
-import { ChartTile } from './ChartTile';
+import { DashboardGrid } from './DashboardGrid';
+import { FilterBar } from './FilterBar';
 import { SuggestionPanel } from './SuggestionPanel';
 import { toast } from '@/components/ui/sonner';
 import { createAutoDashboard } from '@/lib/workspace/suggestions';
 import { useTileActions } from './useTileActions';
-
-const ROW_HEIGHT = 80;
 
 export function DashboardView({ dashboardId }: { dashboardId: string }) {
   const t = useT();
@@ -120,33 +119,16 @@ export function DashboardView({ dashboardId }: { dashboardId: string }) {
               />
             </Card>
           ) : (
-            <div
-              className="grid grid-cols-1 gap-5 md:grid-cols-12"
-              style={{ gridAutoRows: `${ROW_HEIGHT}px` }}
-            >
-              {sorted.map((tile) => {
-                const chart = charts.find((c) => c.id === tile.chartId);
-                if (!chart) return null;
-                const dataset = datasets.find((d) => d.id === chart.datasetId);
-                return (
-                  <div
-                    key={tile.id}
-                    className="min-w-0"
-                    style={{
-                      gridColumn: `${tile.layout.x + 1} / span ${tile.layout.w}`,
-                      gridRow: `${tile.layout.y + 1} / span ${tile.layout.h}`,
-                    }}
-                  >
-                    <ChartTile
-                      chart={chart}
-                      dataset={dataset}
-                      filters={[]}
-                      onAction={(action, ctx) => void onAction(tile, chart, action, ctx, [])}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            <>
+              <FilterBar dashboard={dashboard} />
+              <DashboardGrid
+                dashboard={dashboard}
+                charts={charts}
+                datasets={datasets}
+                aiEnabled={false}
+                onTileAction={(tile, chart, action, ctx, filters) => void onAction(tile, chart, action, ctx, filters)}
+              />
+            </>
           )}
         </div>
         {panelOpen && visibleDatasets.length > 0 && (
